@@ -19,8 +19,16 @@ $(BIN)/gobquest: $(OBJFILES)
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(OBJFILES) -o $@ $(LDFLAGS)
 
-include $(DEPFILES)
+-include $(DEPFILES)
 
 $(BUILD)/%.d: $(SRC)/%.cpp
 	@mkdir -p $(@D)
-	bash ./depend.sh `dirname $<` $(CFLAGS) $< > $@
+	@bash ./depend.sh `dirname $<` $(CFLAGS) $< > $@
+
+.PHONY: gobquest
+config_tool: $(BIN)/config_tool
+
+.PHONY: clean
+clean:
+	@rm -rfv build/
+	@rm -rfv bin/
