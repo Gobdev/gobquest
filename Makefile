@@ -4,7 +4,7 @@ BUILD    := build
 BIN      := bin
 
 CC       := g++
-CFLAGS   := -std=c++11 -I$(INCLUDE)
+CFLAGS   := -std=c++14 -I$(INCLUDE)
 LDFLAGS  := -lpqxx -lpq -lncursesw
 
 SRCFILES := $(shell find src/ -name *.cpp)   #All $SRC/.cpp files
