@@ -1,6 +1,5 @@
 #include <iostream>
-#include <graphics/window.h>
-#include <pqxx/pqxx>
+#include <graphics/terminal.h>
 
 using namespace std;
 
@@ -19,8 +18,8 @@ int main(int argc, char* argv[]){
     //cbreak();	/* Line buffering disabled. pass on everything */
 	init_pair(1, COLOR_BLACK, COLOR_WHITE);
 	init_pair(2, COLOR_WHITE, COLOR_BLACK);
-    window main_win(0, 0, COLS, LINES);
-    main_win.run();
+    terminal term(0, 0, COLS * 3 / 4, LINES);
+    term.run();
     endwin();
     return return_code;
 }

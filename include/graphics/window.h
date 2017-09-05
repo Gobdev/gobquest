@@ -10,8 +10,8 @@ class window {
     public:
         void setCurrentWindow();
         void setNormalWindow();
-        void update();
-        int run();
+        virtual void update() = 0;
+        virtual int run() = 0;
         window(int x, int y, int width, int height);
         ~window();
 
@@ -23,7 +23,5 @@ class window {
         int y;
         int width;
         int height;
-        string str;
-        vector<string> history;
 };
 #endif
