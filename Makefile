@@ -11,6 +11,8 @@ SRCFILES := $(shell find src/ -name *.cpp)   #All $SRC/.cpp files
 OBJFILES := $(patsubst $(SRC)/%.cpp, $(BUILD)/%.o, $(SRCFILES))
 DEPFILES := $(patsubst $(SRC)/%.cpp, $(BUILD)/%.d, $(SRCFILES))
 
+PREFIX   := "/usr/local/"
+
 $(BUILD)/%.o: $(SRC)/%.cpp
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -32,3 +34,15 @@ config_tool: $(BIN)/config_tool
 clean:
 	@rm -rfv build/
 	@rm -rfv bin/
+
+PREFIX = /usr/local
+
+.PHONY: install
+install: $(BIN)/gobquest
+	@mkdir -p $(DESTDIR)$(PREFIX)/bin
+	@install $< $(DESTDIR)$(PREFIX)/bin/gobquest
+
+.PHONY: uninstall
+uninstall:
+	@rm -f $(DESTDIR)$(PREFIX)/bin/gobquest
+
