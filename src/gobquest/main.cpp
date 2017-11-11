@@ -14,8 +14,10 @@ namespace fs = boost::filesystem;
 
 string welcome_screen(string message, int rows, int cols){
     dialog_window win = dialog_window(cols/4, rows/4, cols/2, rows/2, message);
+
     const char* env_p = getenv("GOBQUEST_DIR");
     fs::path path = env_p ? fs::path(string(env_p)) : fs::path(DEFAULT_PATH);
+    
     if (fs::is_directory(path)){
         fs::directory_iterator end_iter;
         for (fs::directory_iterator dir_itr(path); dir_itr != end_iter; ++dir_itr){
@@ -24,15 +26,17 @@ string welcome_screen(string message, int rows, int cols){
             }
         }
     }
-    win.add_option("test");
-    return win.show();
+    win.add_option("Quit");
+    
+    string ret = win.show();
+    return ret;
 }
 
 int main(int argc, char* argv[]){
     setlocale(LC_ALL, "");
     int highlight = 1;
     int choice = 0;
-    int c, return_code;
+    int return_code = 0;
     initscr();
 	start_color();
 	init_pair(1, COLOR_BLACK, COLOR_WHITE);
@@ -40,12 +44,10 @@ int main(int argc, char* argv[]){
     clear();
     string select = welcome_screen("Welcome to Gobquest!", LINES, COLS);
     clear();
-    welcome_screen(select, LINES, COLS);
-    clear();
-    //noecho();
-    //cbreak();	/* Line buffering disabled. pass on everything */
-    terminal term(0, 0, COLS * 3 / 4, LINES);
-    term.run();
+    if (select != "Quit"){
+        terminal term(0, 0, COLS * 3 / 4, LINES);
+        term.run();
+    }
     endwin();
     return return_code;
 }

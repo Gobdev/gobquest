@@ -70,6 +70,6 @@ string dialog_window::show(){
     }
     curs_set(1);
     if (options.empty())
-        return NULL;
+        return "";
     return options[selection];
 }

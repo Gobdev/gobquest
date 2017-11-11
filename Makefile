@@ -40,9 +40,12 @@ PREFIX = /usr/local
 .PHONY: install
 install: $(BIN)/gobquest
 	@mkdir -p $(DESTDIR)$(PREFIX)/bin
+	@mkdir -p $(DESTDIR)$(PREFIX)/gobquest/
+	@cp -r games/* $(DESTDIR)$(PREFIX)/gobquest/
 	@install $< $(DESTDIR)$(PREFIX)/bin/gobquest
 
 .PHONY: uninstall
 uninstall:
 	@rm -f $(DESTDIR)$(PREFIX)/bin/gobquest
+	@rm -rf $(DESTDIR)$(PREFIX)/gobquest/ 
 
