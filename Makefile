@@ -4,8 +4,8 @@ BUILD    := build
 BIN      := bin
 
 CC       := g++
-CFLAGS   := -std=c++14 -I$(INCLUDE)
-LDFLAGS  := -lpqxx -lpq -lncursesw
+CFLAGS   := -std=c++14 -I$(INCLUDE) -I /usr/include/
+LDFLAGS  := -lpqxx -lpq -lncursesw -lboost_system -lboost_filesystem
 
 SRCFILES := $(shell find src/ -name *.cpp)   #All $SRC/.cpp files
 OBJFILES := $(patsubst $(SRC)/%.cpp, $(BUILD)/%.o, $(SRCFILES))
