@@ -13,9 +13,7 @@ terminal::~terminal(){
 }
 
 void terminal::update(){
-    wattron(box_window, COLOR_PAIR(colorPair));
-    box(box_window, 0, 0);
-    wattroff(box_window, COLOR_PAIR(colorPair));
+    draw_border();
     int index = history.size() > height - 3 ? history.size() - height + 3 : 0;
     int start_y = index != 0 ? 0 : height - history.size() - 3;
     for (int i = index; i < history.size(); i++){
@@ -23,8 +21,7 @@ void terminal::update(){
     }
     mvwprintw(_window, 0, width - 10, "%d", history.size());
     wmove(_window, height - 3, 0);
-    wrefresh(box_window);
-    wrefresh(_window);
+    refresh();
 }
 
 int terminal::run(){

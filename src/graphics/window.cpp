@@ -23,6 +23,17 @@ window::~window(){
 	delwin(box_window);
 }
 
+void window::draw_border(){
+    wattron(box_window, COLOR_PAIR(colorPair));
+    box(box_window, 0, 0);
+    wattroff(box_window, COLOR_PAIR(colorPair));
+}
+
+void window::refresh(){
+    wrefresh(box_window);
+    wrefresh(_window);
+}
+
 void window::setCurrentWindow(){
     this -> colorPair = 1;
 }

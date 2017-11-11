@@ -10,12 +10,12 @@ class window {
     public:
         void setCurrentWindow();
         void setNormalWindow();
-        virtual void update() = 0;
-        virtual int run() = 0;
         window(int x, int y, int width, int height);
         ~window();
 
     protected:
+        void draw_border();
+        void refresh();
         WINDOW* _window;
         WINDOW* box_window;
         int colorPair = 2;
