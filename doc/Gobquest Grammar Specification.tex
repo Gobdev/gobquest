@@ -42,7 +42,7 @@
             \begin{tabular}{l c l}
                 start          & = & flag start \textbar\ EOF \\
                 flag           & = & name default\_value \\
-                name           & = & string \\
+                name           & = & STRING \\
                 default\_value & = & true \textbar\ false
             \end{tabular}
     \newpage
@@ -56,17 +56,29 @@
         depending on which flags are set for the player, which means that 
         areas can be locked off until a certain point in the game is 
         reached. The same thing can be applied to NPC's, locking certain 
-        NPC interactions until it is appropriate in the game.
+        NPC interactions until it is appropriate in the game. Note the 
+        tokens INDENT and DEDENT in the grammar; these tokens mean that 
+        the code is indented one more step and that one indentation is 
+        removed, respectively.
         \subsection{Grammar}
             \begin{tabular}{l c l}
-                start & = & name exits start \textbar\ EOF \\
-                name  & = & string \\
-                exits & = & exit exits \textbar\ $\epsilon$ \\\\
+                start  & = & STRING '\textbackslash n' INDENT name 
+                             exits DEDENT start \textbar\ EOF \\
+                name   & = & STRING '\textbackslash n' 
+                             \textbar\ 'name :' nlstring\\
+                exits  & = & exit exits \textbar\ exit \\\\
 
-                exit       & = & exit\_name path requirements exit \textbar\ $\epsilon$ \\
-                exit\_name   & = & string \\
-                path         & = & string \\
-                requirements & = & flag requirements \textbar\ $\epsilon$
+                exit         & = & INDENT exit\_name path requirements 
+                                   DEDENT \\ 
+                exit\_name   & = & STRING '\textbackslash n' 
+                                   \textbar\ 'name :' nlstring \\
+                path         & = & STRING '\textbackslash n' 
+                                   \textbar\ 'path :' nlstring \\
+                requirements & = & flag '\textbackslash n' requirements 
+                                   \textbar\ flag \\\\
+                nlstring & = & STRING '\textbackslash n' \textbar\ 
+                               '\textbackslash n' INDENT STRING 
+                               DEDENT '\textbackslash n'
             \end{tabular}
 
             
