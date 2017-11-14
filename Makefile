@@ -5,7 +5,14 @@ BIN      := bin
 
 CC       := g++
 CFLAGS   := -std=c++14 -I$(INCLUDE) -I /usr/include/
-LDFLAGS  := -lncursesw -lboost_system -lboost_filesystem
+LDFLAGS  := -lboost_system -lboost_filesystem
+
+ifeq ($(UNAME_S),Linux)
+    LDFLAGS += -lncursesw
+endif
+ifeq ($(UNAME_S),Darwin)
+    CCFLAGS += -lncurses
+endif
 
 SRCFILES := $(shell find src/ -name *.cpp)   #All $SRC/.cpp files
 OBJFILES := $(patsubst $(SRC)/%.cpp, $(BUILD)/%.o, $(SRCFILES))
@@ -21,11 +28,11 @@ $(BIN)/gobquest: $(OBJFILES)
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(OBJFILES) -o $@ $(LDFLAGS)
 
--include $(DEPFILES)
-
 $(BUILD)/%.d: $(SRC)/%.cpp
 	@mkdir -p $(@D)
 	@bash ./depend.sh `dirname $<` $(CFLAGS) $< > $@
+
+-include $(DEPFILES)
 
 .PHONY: gobquest
 gobquest: $(BIN)/gobquest

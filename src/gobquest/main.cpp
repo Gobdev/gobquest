@@ -1,7 +1,6 @@
 #include <iostream>
 #include <graphics/terminal.h>
 #include <graphics/dialog_window.h>
-#include <entities/player.h>
 #include <cstdlib> 
 #include <boost/filesystem.hpp>
 
