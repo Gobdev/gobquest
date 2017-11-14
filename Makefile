@@ -28,7 +28,7 @@ $(BUILD)/%.d: $(SRC)/%.cpp
 	@bash ./depend.sh `dirname $<` $(CFLAGS) $< > $@
 
 .PHONY: gobquest
-config_tool: $(BIN)/config_tool
+gobquest: $(BIN)/gobquest
 
 .PHONY: clean
 clean:
