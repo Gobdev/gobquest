@@ -7,10 +7,12 @@ CC       := g++
 CFLAGS   := -std=c++14 -I$(INCLUDE) -I /usr/include/
 LDFLAGS  := -lboost_system -lboost_filesystem
 
-ifeq ($(UNAME_S),Linux)
+UNAME    :=$(shell uname)
+
+ifeq ($(UNAME),Linux)
     LDFLAGS += -lncursesw
 endif
-ifeq ($(UNAME_S),Darwin)
+ifeq ($(UNAME),Darwin)
     LDFLAGS += -lncurses
 endif
 
