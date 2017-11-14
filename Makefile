@@ -5,7 +5,7 @@ BIN      := bin
 
 CC       := g++
 CFLAGS   := -std=c++14 -I$(INCLUDE) -I /usr/include/
-LDFLAGS  := -lpqxx -lpq -lncursesw -lboost_system -lboost_filesystem
+LDFLAGS  := -lncursesw -lboost_system -lboost_filesystem
 
 SRCFILES := $(shell find src/ -name *.cpp)   #All $SRC/.cpp files
 OBJFILES := $(patsubst $(SRC)/%.cpp, $(BUILD)/%.o, $(SRCFILES))
@@ -34,8 +34,6 @@ config_tool: $(BIN)/config_tool
 clean:
 	@rm -rfv build/
 	@rm -rfv bin/
-
-PREFIX = /usr/local
 
 .PHONY: install
 install: $(BIN)/gobquest
