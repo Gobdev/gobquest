@@ -11,7 +11,7 @@ ifeq ($(UNAME_S),Linux)
     LDFLAGS += -lncursesw
 endif
 ifeq ($(UNAME_S),Darwin)
-    CCFLAGS += -lncurses
+    LDFLAGS += -lncurses
 endif
 
 SRCFILES := $(shell find src/ -name *.cpp)   #All $SRC/.cpp files
