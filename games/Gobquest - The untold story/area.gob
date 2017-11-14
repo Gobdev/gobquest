@@ -1,0 +1,21 @@
+Cave1:
+    name: Unknown Cave
+    exit:
+        Cave opening
+        Cave2
+    exit:
+        Deeper into the cave
+        Cave3
+        quest_complete
+Cave2:
+    name:
+        Cave mouth
+    exit:
+        Go back
+        Cave2
+
+Cave3:
+    name: The deepest cave
+    exit:
+        Go back
+        Cave2
