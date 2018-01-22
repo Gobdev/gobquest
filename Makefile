@@ -2,10 +2,12 @@ SRC 	 := src
 INCLUDE  := include
 BUILD    := build
 BIN      := bin
+TEST     := tests
 
-CC       := g++
-CFLAGS   := -std=c++14 -I$(INCLUDE) -I /usr/include/
-LDFLAGS  := -lboost_system -lboost_filesystem
+CC        := g++
+CFLAGS    := -std=c++14 -I$(INCLUDE) -I /usr/include/
+LDFLAGS   := -lboost_system -lboost_filesystem
+TESTFLAGS := -lgtest -lpthread
 
 UNAME    :=$(shell uname)
 
@@ -16,9 +18,11 @@ ifeq ($(UNAME),Darwin)
     LDFLAGS += -lncurses
 endif
 
-SRCFILES := $(shell find src/ -name *.cpp)   #All $SRC/.cpp files
-OBJFILES := $(patsubst $(SRC)/%.cpp, $(BUILD)/%.o, $(SRCFILES))
-DEPFILES := $(patsubst $(SRC)/%.cpp, $(BUILD)/%.d, $(SRCFILES))
+SRCFILES  := $(shell find $(SRC)/ -name *.cpp)   #All $SRC/.cpp files
+OBJFILES  := $(patsubst $(SRC)/%.cpp, $(BUILD)/%.o, $(SRCFILES))
+DEPFILES  := $(patsubst $(SRC)/%.cpp, $(BUILD)/%.d, $(SRCFILES))
+TESTOBJS  := $(filter-out %/main.o, $(OBJFILES))
+TESTFILES := $(shell find $(TEST)/ -name *.cpp)   #All $TEST/.cpp files
 
 PREFIX   := "/usr/local/"
 
@@ -30,6 +34,11 @@ $(BIN)/gobquest: $(OBJFILES)
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(OBJFILES) -o $@ $(LDFLAGS)
 
+$(BIN)/gobtest: $(TESTOBJS) $(TESTFILES)
+	@mkdir -p $(@D)
+	$(info $$TESTOBJS is [${TESTOBJS}])
+	$(CC) $(CFLAGS) $(TESTFLAGS) $(TESTFILES) $(TESTOBJS) -o $@ $(LDFLAGS)
+
 $(BUILD)/%.d: $(SRC)/%.cpp
 	@mkdir -p $(@D)
 	@bash ./depend.sh `dirname $<` $(CFLAGS) $< > $@
@@ -38,6 +47,9 @@ $(BUILD)/%.d: $(SRC)/%.cpp
 
 .PHONY: gobquest
 gobquest: $(BIN)/gobquest
+
+.PHONY: gobtest
+gobtest: $(BIN)/gobtest
 
 .PHONY: clean
 clean:
