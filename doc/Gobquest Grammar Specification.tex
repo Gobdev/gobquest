@@ -21,21 +21,21 @@
 \usepackage{hyperref}
 
 \begin{document}
-    
+
     \maketitle
     \newpage
 
     \tableofcontents
     \newpage
- 
+
     \section{Flags}
         The flags in Gobquest are used to deny access to certain points
-        before some requirements have been completed. Flags can be set 
-        as a result of a quest step completion or NPC interaction. They 
-        can be checked when selecting which exits and NPC's should be 
-        available in a room, and which conversation options should be 
-        available with an NPC. The default value given to a flag is 
-        the value the flag will have when the game is started with an 
+        before some requirements have been completed. Flags can be set
+        as a result of a quest step completion or NPC interaction. They
+        can be checked when selecting which exits and NPC's should be
+        available in a room, and which conversation options should be
+        available with an NPC. The default value given to a flag is
+        the value the flag will have when the game is started with an
         empty save file.
 
         \subsection{Grammar}
@@ -48,39 +48,39 @@
     \newpage
 
     \section{Rooms}
-        Rooms in Gobquest contain all the other objects (with flags being 
-        an exception, since they are a program state). Each room will also 
-        have connections to other rooms, containing the name of the exit 
-        that is shown to the player, and the room name that this exit 
-        takes the player to. These exits can vary in a room 
-        depending on which flags are set for the player, which means that 
-        areas can be locked off until a certain point in the game is 
-        reached. The same thing can be applied to NPC's, locking certain 
-        NPC interactions until it is appropriate in the game. Note the 
-        tokens INDENT and DEDENT in the grammar; these tokens mean that 
-        the code is indented one more step and that one indentation is 
+        Rooms in Gobquest contain all the other objects (with flags being
+        an exception, since they are a program state). Each room will also
+        have connections to other rooms, containing the name of the exit
+        that is shown to the player, and the room name that this exit
+        takes the player to. These exits can vary in a room
+        depending on which flags are set for the player, which means that
+        areas can be locked off until a certain point in the game is
+        reached. The same thing can be applied to NPC's, locking certain
+        NPC interactions until it is appropriate in the game. Note the
+        tokens INDENT and DEDENT in the grammar; these tokens mean that
+        the code is indented one more step and that one indentation is
         removed, respectively.
         \subsection{Grammar}
             \begin{tabular}{l c l}
-                start  & = & STRING '\textbackslash n' INDENT name 
+                start  & = & STRING '\textbackslash n' INDENT name
                              exits DEDENT start \textbar\ EOF \\
-                name   & = & STRING '\textbackslash n' 
-                             \textbar\ 'name :' nlstring\\
+                name   & = & STRING '\textbackslash n'
+                             \textbar\ 'name:' nlstring\\
                 exits  & = & exit exits \textbar\ exit \\\\
 
-                exit         & = & INDENT exit\_name path requirements 
-                                   DEDENT \\ 
-                exit\_name   & = & STRING '\textbackslash n' 
-                                   \textbar\ 'name :' nlstring \\
-                path         & = & STRING '\textbackslash n' 
-                                   \textbar\ 'path :' nlstring \\
-                requirements & = & flag '\textbackslash n' requirements 
-                                   \textbar\ flag \\\\
-                nlstring & = & STRING '\textbackslash n' \textbar\ 
-                               '\textbackslash n' INDENT STRING 
+                exit         & = & 'exit:' '\textbackslash n' INDENT exit\_name path requirements
+                                   DEDENT \\
+                exit\_name   & = & STRING '\textbackslash n'
+                                   \textbar\ 'name:' nlstring \\
+                path         & = & STRING '\textbackslash n'
+                                   \textbar\ 'path:' nlstring \\
+                requirements & = & flag '\textbackslash n' requirements
+                                   \textbar\ flag '\textbackslash n' \\\\
+                nlstring & = & STRING '\textbackslash n' \textbar\
+                               '\textbackslash n' INDENT STRING
                                DEDENT '\textbackslash n'
             \end{tabular}
 
-            
+
 
 \end{document}
