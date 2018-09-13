@@ -1,0 +1,10 @@
+Cave1:
+    name: Unknown Cave
+    exit:
+        Cave opening
+        Cave2
+Cave2:
+    name: Unknown Cave Opening
+    exit:
+        Cave opening
+        Cave1
