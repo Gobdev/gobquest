@@ -19,21 +19,22 @@ void dialog_window::add_option(string text){
 void dialog_window::draw(){
     draw_border();
     int rows = 0;
-    if (message.size() < width) {
-        mvwprintw(_window, 0, (width - message.size()) / 2, message.c_str());
+    int size = (int) message.size();
+    if (size < width) {
+        mvwprintw(_window, 0, (width - size) / 2, message.c_str());
         rows++;
     } else {
         string message_copy = string(message);
         while(true){
             mvwprintw(_window, rows, 1, message_copy.substr(0, width - 2).c_str());
             rows++;
-            if (message_copy.size() < width - 2 || rows >= height)
+            if ((int) message_copy.size() < width - 2 || rows >= height)
                 break;
             message_copy = message_copy.substr(width - 2);
         }
     }
     rows++;
-    for (int i = 0; i != options.size(); i++){
+    for (int i = 0; i != (int) options.size(); i++){
         if (rows + i >= height)
             break;
         if (i == selection)
@@ -54,7 +55,7 @@ string dialog_window::show(){
         c = wgetch(_window);
         switch(c){
             case KEY_DOWN:
-                if (selection < options.size() - 1)
+                if (selection < (int) options.size() - 1)
                     selection++;
                 break;
             case KEY_UP:

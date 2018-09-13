@@ -3,20 +3,17 @@
 
 using namespace std;
 
-terminal::terminal(int x, int y, int width, int height) : 
-                   window (x, y, width, height){
-    this -> history;
-}
+terminal::terminal(int x, int y, int width, int height) :
+                   window (x, y, width, height){}
 
-terminal::~terminal(){
-
-}
+terminal::~terminal(){}
 
 void terminal::update(){
     draw_border();
-    int index = history.size() > height - 3 ? history.size() - height + 3 : 0;
+    int size = (int) history.size();
+    int index = size > height - 3 ? size - height + 3 : 0;
     int start_y = index != 0 ? 0 : height - history.size() - 3;
-    for (int i = index; i < history.size(); i++){
+    for (int i = index; i < size; i++){
         mvwprintw(_window, start_y + i - index, 0, history[i].c_str());
     }
     mvwprintw(_window, 0, width - 10, "%d", history.size());

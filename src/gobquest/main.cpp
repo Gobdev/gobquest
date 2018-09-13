@@ -1,7 +1,7 @@
 #include <iostream>
 #include <graphics/terminal.h>
 #include <graphics/dialog_window.h>
-#include <cstdlib> 
+#include <cstdlib>
 #include <boost/filesystem.hpp>
 
 using namespace std;
@@ -16,7 +16,7 @@ string welcome_screen(string message, int rows, int cols){
 
     const char* env_p = getenv("GOBQUEST_DIR");
     fs::path path = env_p ? fs::path(string(env_p)) : fs::path(DEFAULT_PATH);
-    
+
     if (fs::is_directory(path)){
         fs::directory_iterator end_iter;
         for (fs::directory_iterator dir_itr(path); dir_itr != end_iter; ++dir_itr){
@@ -26,15 +26,13 @@ string welcome_screen(string message, int rows, int cols){
         }
     }
     win.add_option("Quit");
-    
+
     string ret = win.show();
     return ret;
 }
 
 int main(int argc, char* argv[]){
     setlocale(LC_ALL, "");
-    int highlight = 1;
-    int choice = 0;
     int return_code = 0;
     initscr();
 	start_color();
