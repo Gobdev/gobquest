@@ -5,7 +5,7 @@ BIN      := bin
 TEST     := tests
 
 CC        := g++
-CFLAGS    := -std=c++14 -I$(INCLUDE) -I /usr/include/
+CFLAGS    := -std=c++14 -g -Wall -pedantic -I$(INCLUDE) -I /usr/include/
 LDFLAGS   := -lboost_system -lboost_filesystem
 TESTFLAGS := -lgtest -lpthread
 
@@ -51,6 +51,10 @@ gobquest: $(BIN)/gobquest
 .PHONY: gobtest
 gobtest: $(BIN)/gobtest
 
+.PHONY: test
+test: $(BIN)/gobtest
+	@GOBTEST_DIR=$(TEST) $(BIN)/gobtest
+
 .PHONY: clean
 clean:
 	@rm -rfv build/
@@ -66,5 +70,4 @@ install: $(BIN)/gobquest
 .PHONY: uninstall
 uninstall:
 	@rm -f $(DESTDIR)$(PREFIX)/bin/gobquest
-	@rm -rf $(DESTDIR)$(PREFIX)/gobquest/ 
-
+	@rm -rf $(DESTDIR)$(PREFIX)/gobquest/
