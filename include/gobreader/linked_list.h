@@ -58,6 +58,14 @@ class linked_iterator{
 template<class T>
 class linked_list {
     public:
+        ~linked_list<T>(){
+            Node<T>* next;
+            while(first != NULL){
+                next = first->next;
+                delete first;
+                first = next;
+            }
+        }
         linked_iterator<T> begin(){
             return linked_iterator<T>(first);
         }
@@ -75,13 +83,36 @@ class linked_list {
             if (!first){
                 first = last;
             }
+            count++;
+        }
+        void insert(T data){
+            first = new Node<T>(data, first);
+            if (!last){
+                last = first;
+            }
+            count++;
         }
         T pop(){
             T data = last->val;
             last = last->prev;
             delete last->next;
+            count--;
             last->next = NULL;
             return data;
+        }
+        T pop_front(){
+            T data = first->val;
+            first = first->next;
+            delete first->prev;
+            count--;
+            first->prev = NULL;
+            return data;
+        }
+        T front(){
+            return first->val;
+        }
+        T back(){
+            return last->val;
         }
         T debug(){
             return first->val;
@@ -90,6 +121,7 @@ class linked_list {
     private:
         Node<T>* first = NULL;
         Node<T>* last = NULL;
+        int count;
 
 };
 

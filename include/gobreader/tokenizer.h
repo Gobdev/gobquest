@@ -1,26 +1,33 @@
 #ifndef GOBREADER_TOKENIZER_H
 #define GOBREADER_TOKENIZER_H
-#include <boost/filestream.hpp>
 #include <string>
+#include <gobreader/token.h>
+#include <gobreader/linked_list.h>
+#include <boost/filesystem.hpp>
 
-namespace fs = boost::filestream;
+using namespace std;
 
-enum token_type { start };
-
-class token {
-    public:
-        token();
-};
+namespace fs = boost::filesystem;
 
 class tokenizer {
-    
+
     public:
         tokenizer(fs::path filepath);
         ~tokenizer();
+        /*void tokenize();
+        std::string get_token_value();
+        bool is_done();
+        bool next_is(Token_Type type);
+        bool lookahead(Token_Type type);
+        void print_all();*/
+        token get_current_token();
 
     private:
-        
+        void tokenize(ifstream& file);
+        /*void create_new_token(token_type type, std::string token_string);*/
+        linked_list<token> tokens;
+
 };
 
 
-#endif
+#endif //GOBREADER_TOKENIZER_H
