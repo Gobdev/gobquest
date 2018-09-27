@@ -8,9 +8,9 @@ window::window(int x, int y, int width, int height){
     this -> y = y;
     this -> width = width;
     this -> height = height;
-    box_window = newwin(this -> height, this -> width, 
+    box_window = newwin(this -> height, this -> width,
                         this -> y, this -> x);
-    _window = newwin(this -> height - 2, this -> width - 2, 
+    _window = newwin(this -> height - 2, this -> width - 2,
                      this -> y + 1, this -> x + 1);
     wborder(_window, ' ', ' ', ' ',' ',' ',' ',' ',' ');
     setNormalWindow();
@@ -18,9 +18,9 @@ window::window(int x, int y, int width, int height){
 
 window::~window(){
     wborder(box_window, ' ', ' ', ' ',' ',' ',' ',' ',' ');
-	wrefresh(box_window);
-	delwin(_window);
-	delwin(box_window);
+  	wrefresh(box_window);
+  	delwin(_window);
+  	delwin(box_window);
 }
 
 void window::draw_border(){
@@ -41,4 +41,3 @@ void window::setCurrentWindow(){
 void window::setNormalWindow(){
     this -> colorPair = 2;
 }
-
