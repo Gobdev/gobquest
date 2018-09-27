@@ -117,6 +117,9 @@ class linked_list {
         T debug(){
             return first->val;
         }
+        int size(){
+            return count;
+        }
 
     private:
         Node<T>* first = NULL;

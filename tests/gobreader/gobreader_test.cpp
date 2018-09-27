@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <gobreader/linked_list.h>
 #include <gobreader/tokenizer.h>
+#include <iostream>
 
 const string test_dir = string(std::getenv("GOBTEST_DIR")) + "/gobreader/gobfiles/";
 

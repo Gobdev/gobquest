@@ -21,6 +21,7 @@ class tokenizer {
         bool lookahead(Token_Type type);
         void print_all();*/
         token get_current_token();
+        int get_token_count();
 
     private:
         void tokenize(ifstream& file);
