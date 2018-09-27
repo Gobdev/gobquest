@@ -23,11 +23,13 @@ class tokenizer {
         token get_current_token();
         int get_token_count();
         void print_all();
+        void parse_indents(string& line);
 
     private:
         void tokenize(ifstream& file);
         /*void create_new_token(token_type type, std::string token_string);*/
         linked_list<token> tokens;
+        vector<string> indents = {};
 
 };
 
