@@ -53,7 +53,7 @@ gobtest: $(BIN)/gobtest
 
 .PHONY: test
 test: $(BIN)/gobtest
-	@GOBTEST_DIR=$(TEST) $(BIN)/gobtest
+	@GOBTEST_DIR=$(TEST) $(BIN)/gobtest --gtest_color=yes
 
 .PHONY: clean
 clean:
