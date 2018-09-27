@@ -22,6 +22,7 @@ class tokenizer {
         void print_all();*/
         token get_current_token();
         int get_token_count();
+        void print_all();
 
     private:
         void tokenize(ifstream& file);

@@ -1,7 +1,9 @@
 #include <gobreader/token.h>
 #include <gobreader/tokenizer.h>
 #include <fstream>
+#include <iostream>
 
+using namespace std;
 
 tokenizer::tokenizer(fs::path filepath) {
     ifstream file;
@@ -26,5 +28,11 @@ void tokenizer::tokenize(ifstream& file){
     while (file.good()){
         std::getline(file, line);
         tokens.push(token(STRING, line));
+    }
+}
+
+void tokenizer::print_all(){
+    for (token t : tokens){
+        cout << "token type: " << t.repr() << ", value: " << t.str << endl;
     }
 }

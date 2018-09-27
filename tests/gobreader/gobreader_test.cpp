@@ -4,6 +4,8 @@
 #include <gobreader/tokenizer.h>
 #include <iostream>
 
+using namespace std;
+
 const string test_dir = string(std::getenv("GOBTEST_DIR")) + "/gobreader/gobfiles/";
 
 TEST (GobreaderTokenTest, CreateToken) {
@@ -15,7 +17,8 @@ TEST (GobreaderTokenTest, CreateToken) {
 
 TEST (GoreaderTokenizerTest, CreateTokenizer){
     tokenizer t(fs::path(test_dir + "simple.gob"));
-    EXPECT_EQ(t.get_current_token().type, START);
+    t.print_all();
+    EXPECT_EQ(t.get_current_token().repr(), "start");
 }
 
 TEST (GobreaderLinkedListTest, CreateLinkedList){
