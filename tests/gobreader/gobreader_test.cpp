@@ -2,11 +2,18 @@
 #include <cstdlib>
 #include <gobreader/linked_list.h>
 #include <gobreader/tokenizer.h>
+#include <sstream>
 #include <iostream>
 
 using namespace std;
 
 const string test_dir = string(std::getenv("GOBTEST_DIR")) + "/gobreader/gobfiles/";
+
+vector<token_type> simple_token_order = {
+    START, STRING, COLON, INDENT, NAME, STRING, EXIT, INDENT, STRING, STRING,
+    DEDENT, DEDENT, STRING, COLON, INDENT, NAME, STRING, EXIT, INDENT, STRING,
+    STRING, DEDENT, DEDENT
+};
 
 TEST (GobreaderTokenTest, CreateToken) {
     token* a = new token(STRING, "test");
@@ -17,8 +24,12 @@ TEST (GobreaderTokenTest, CreateToken) {
 
 TEST (GoreaderTokenizerTest, CreateTokenizer){
     tokenizer t(fs::path(test_dir + "simple.gob"));
-    t.print_all();
-    EXPECT_EQ(t.get_current_token().repr(), "start");
+    uint i = 0;
+    for (token current_token : t){
+        EXPECT_EQ(current_token.type, simple_token_order[i]);
+        i++;
+    }
+    EXPECT_EQ(i, simple_token_order.size());
 }
 
 TEST (GobreaderLinkedListTest, CreateLinkedList){

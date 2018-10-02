@@ -87,3 +87,12 @@ void tokenizer::print_all(){
         cout << "token type: " << t.repr() << ", value: " << t.str << endl;
     }
 }
+
+
+linked_iterator<token> tokenizer::begin(){
+    return tokens.begin();
+}
+
+linked_iterator<token> tokenizer::end(){
+    return tokens.end();
+}
