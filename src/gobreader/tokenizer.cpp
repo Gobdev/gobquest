@@ -7,7 +7,13 @@
 
 using namespace std;
 
+tokenizer::tokenizer(){}
+
 tokenizer::tokenizer(fs::path filepath) {
+    tokenize(filepath);
+}
+
+void tokenizer::tokenize(fs::path filepath){
     ifstream file;
     file.open(filepath.string());
     tokens.push(token(START, ""));
@@ -53,6 +59,7 @@ void tokenizer::parse_indents(string& line){
 
 void tokenizer::tokenize(ifstream& file){
     string line;
+    size_t pos;
     while (file.good()){
         std::getline(file, line);
         parse_indents(line);
@@ -63,6 +70,10 @@ void tokenizer::tokenize(ifstream& file){
             } else if (line.substr(0, 5) == "exit:"){
                 tokens.push(token(EXIT, "exit:"));
                 line = line.substr(5);
+            } else if ((pos = line.find(':')) != string::npos){
+                tokens.push(token(STRING, line.substr(0, pos)));
+                tokens.push(token(COLON, ":"));
+                line = line.substr(pos + 1);
             } else {
                 tokens.push(token(STRING, line));
                 break;

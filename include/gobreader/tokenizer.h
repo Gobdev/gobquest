@@ -12,10 +12,12 @@ namespace fs = boost::filesystem;
 class tokenizer {
 
     public:
+        tokenizer();
         tokenizer(fs::path filepath);
+        void tokenize(fs::path filepath);
         ~tokenizer();
-        /*void tokenize();
-        std::string get_token_value();
+
+        /*std::string get_token_value();
         bool is_done();
         bool next_is(Token_Type type);
         bool lookahead(Token_Type type);
