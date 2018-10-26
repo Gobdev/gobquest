@@ -62,23 +62,25 @@
         removed, respectively.
         \subsection{Grammar}
             \begin{tabular}{l c l}
-                start  & = & STRING '\textbackslash n' INDENT name
+                start  & = & TEXT ':\textbackslash n' INDENT name description
                              exits DEDENT start \textbar\ EOF \\
-                name   & = & STRING '\textbackslash n'
-                             \textbar\ 'name:' nlstring\\
+                name   & = & TEXT '\textbackslash n'
+                             \textbar\ 'name:' nltext\\
+                description & = & TEXT '\textbackslash n'
+                             \textbar\ 'description:' nltext\\
                 exits  & = & exit exits \textbar\ exit \\\\
 
                 exit         & = & 'exit:' '\textbackslash n' INDENT exit\_name path requirements
                                    DEDENT \\
-                exit\_name   & = & STRING '\textbackslash n'
-                                   \textbar\ 'name:' nlstring \\
-                path         & = & STRING '\textbackslash n'
-                                   \textbar\ 'path:' nlstring \\
+                exit\_name   & = & TEXT '\textbackslash n'
+                                   \textbar\ 'name:' nltext \\
+                path         & = & TEXT '\textbackslash n'
+                                   \textbar\ 'path:' nltext \\
                 requirements & = & flag '\textbackslash n' requirements
-                                   \textbar\ flag '\textbackslash n' \\\\
-                nlstring & = & STRING '\textbackslash n' \textbar\
-                               '\textbackslash n' INDENT STRING
-                               DEDENT '\textbackslash n'
+                                   \textbar\ $\epsilon$ \\\\
+                nltext & = & TEXT '\textbackslash n' \textbar\
+                             '\textbackslash n' INDENT TEXT '\textbackslash n'
+                             DEDENT
             \end{tabular}
 
 
