@@ -6,14 +6,13 @@
 using namespace std;
 
 enum token_type {
-    START, INDENT, DEDENT, STRING, NEWLINE, NAME, EXIT, PATH, COLON
+    INDENT, DEDENT, TEXT, NEWLINE, NAME, EXIT, PATH, COLON, END
 };
 
 const map<token_type, string> token_string = {
-    {START,   "start"  },
     {INDENT,  "indent" },
     {DEDENT,  "dedent" },
-    {STRING,  "string" },
+    {TEXT,    "text" },
     {NEWLINE, "newline"},
     {NAME,    "name"   },
     {EXIT,    "exit"   },
@@ -26,6 +25,7 @@ struct token {
     string str;
     token* next;
     token(token_type type, string str): type(type), str(str), next(NULL){};
+    token(token_type type): type(type), str(""), next(NULL){};
     string repr(){ return token_string.at(type); };
 };
 

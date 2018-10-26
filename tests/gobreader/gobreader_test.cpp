@@ -10,15 +10,15 @@ using namespace std;
 const string test_dir = string(std::getenv("GOBTEST_DIR")) + "/gobreader/gobfiles/";
 
 vector<token_type> simple_token_order = {
-    START, STRING, COLON, INDENT, NAME, STRING, EXIT, INDENT, STRING, STRING,
-    DEDENT, DEDENT, STRING, COLON, INDENT, NAME, STRING, EXIT, INDENT, STRING,
-    STRING, DEDENT, DEDENT
+    TEXT, COLON, INDENT, NAME, TEXT, EXIT, INDENT, TEXT, TEXT, DEDENT,
+    DEDENT, TEXT, COLON, INDENT, NAME, TEXT, EXIT, INDENT, TEXT, TEXT,
+    DEDENT, DEDENT, END
 };
 
 TEST (GobreaderTokenTest, CreateToken) {
-    token* a = new token(STRING, "test");
+    token* a = new token(TEXT, "test");
     EXPECT_EQ(a->str, "test");
-    EXPECT_EQ(a->type, STRING);
+    EXPECT_EQ(a->type, TEXT);
     delete a;
 }
 

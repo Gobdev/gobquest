@@ -16,7 +16,6 @@ tokenizer::tokenizer(fs::path filepath) {
 void tokenizer::tokenize(fs::path filepath){
     ifstream file;
     file.open(filepath.string());
-    tokens.push(token(START, ""));
     tokenize(file);
     file.close();
 }
@@ -38,7 +37,7 @@ void tokenizer::parse_indents(string& line){
             line = line.substr(indent.size());
         } else {
             for (uint j = 0; j < indents.size() - i; j++){
-                tokens.push(token(DEDENT, ""));
+                tokens.push(token(DEDENT));
             }
             indents.erase(indents.begin() + i, indents.end());
             break;
@@ -71,15 +70,16 @@ void tokenizer::tokenize(ifstream& file){
                 tokens.push(token(EXIT, "exit:"));
                 line = line.substr(5);
             } else if ((pos = line.find(':')) != string::npos){
-                tokens.push(token(STRING, line.substr(0, pos)));
+                tokens.push(token(TEXT, line.substr(0, pos)));
                 tokens.push(token(COLON, ":"));
                 line = line.substr(pos + 1);
             } else {
-                tokens.push(token(STRING, line));
+                tokens.push(token(TEXT, line));
                 break;
             }
         }
     }
+    tokens.push(token(END));
 }
 
 void tokenizer::print_all(){
