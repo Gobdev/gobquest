@@ -8,6 +8,7 @@ class terminal : public window{
         terminal(int x, int y, int width, int height);
         ~terminal();
         int run();
+        string& read_command();
 
     private:
         void update();

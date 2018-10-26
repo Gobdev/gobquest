@@ -4,7 +4,9 @@
 using namespace std;
 
 terminal::terminal(int x, int y, int width, int height) :
-                   window (x, y, width, height){}
+                   window (x, y, width, height) {
+   update();
+}
 
 terminal::~terminal(){}
 
@@ -22,17 +24,21 @@ void terminal::update(){
 }
 
 int terminal::run(){
-    char c[150];
     bool cont = true;
-    update();
     while(cont){
-        wgetstr(_window, c);
-        this -> str = string(c);
-        this -> history.push_back(str);
-        if (history.size() > 100){
-            history.erase(history.begin());
-        }
-        update();
+        this->read_command();
     }
     return 0;
+}
+
+string& terminal::read_command(){
+    char c[150];
+    wgetstr(_window, c);
+    this->str = string(c);
+    this->history.push_back(str);
+    if (history.size() > 100){
+        history.erase(history.begin());
+    }
+    update();
+    return this->str;
 }

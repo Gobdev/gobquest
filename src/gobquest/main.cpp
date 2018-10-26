@@ -41,10 +41,13 @@ int main(int argc, char* argv[]){
     clear();
     string select = welcome_screen("Welcome to Gobquest!", LINES, COLS);
     clear();
+    string a = "";
     if (select != "Quit"){
         terminal term(0, 0, COLS * 3 / 4, LINES);
-        term.run();
+        //term.run();
+        a = term.read_command();
     }
+    select = welcome_screen(a, LINES, COLS);
     endwin();
     return return_code;
 }
