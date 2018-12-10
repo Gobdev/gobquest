@@ -1,4 +1,4 @@
-#include <graphics/terminal.h>
+#include <view/graphics/terminal.h>
 #include <string>
 
 using namespace std;

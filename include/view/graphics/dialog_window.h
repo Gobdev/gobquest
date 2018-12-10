@@ -1,6 +1,6 @@
 #ifndef DIALOG_WIN_H
 #define DIALOG_WIN_H
-#include <graphics/window.h>
+#include <view/graphics/window.h>
 #include <vector>
 #include <string>
 
@@ -16,6 +16,6 @@ class dialog_window : window {
         string message;
         vector<string> options;
         int selection;
-}; 
+};
 
 #endif

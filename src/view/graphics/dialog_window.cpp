@@ -1,4 +1,4 @@
-#include <graphics/dialog_window.h>
+#include <view/graphics/dialog_window.h>
 #include <string>
 
 using namespace std;

@@ -1,6 +1,6 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
-#include <graphics/window.h>
+#include <view/graphics/window.h>
 
 class terminal : public window{
 

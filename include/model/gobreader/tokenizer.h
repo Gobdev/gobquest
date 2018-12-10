@@ -1,8 +1,8 @@
 #ifndef GOBREADER_TOKENIZER_H
 #define GOBREADER_TOKENIZER_H
 #include <string>
-#include <gobreader/token.h>
-#include <gobreader/linked_list.h>
+#include <model/gobreader/token.h>
+#include <model/gobreader/linked_list.h>
 #include <boost/filesystem.hpp>
 
 using namespace std;

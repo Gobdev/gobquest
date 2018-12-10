@@ -3,8 +3,8 @@
 #include <string>
 #include <map>
 #include <vector>
-#include <gobreader/area.h>
-#include <gobreader/tokenizer.h>
+#include <model/gobreader/area.h>
+#include <model/gobreader/tokenizer.h>
 
 using namespace std;
 

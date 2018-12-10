@@ -1,5 +1,5 @@
-#include <gobreader/token.h>
-#include <gobreader/tokenizer.h>
+#include <model/gobreader/token.h>
+#include <model/gobreader/tokenizer.h>
 #include <fstream>
 #include <iostream>
 #include <vector>

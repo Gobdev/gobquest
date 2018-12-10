@@ -1,6 +1,6 @@
 #include <iostream>
-#include <graphics/terminal.h>
-#include <graphics/dialog_window.h>
+#include <view/graphics/terminal.h>
+#include <view/graphics/dialog_window.h>
 #include <cstdlib>
 #include <boost/filesystem.hpp>
 
@@ -35,9 +35,9 @@ int main(int argc, char* argv[]){
     setlocale(LC_ALL, "");
     int return_code = 0;
     initscr();
-	start_color();
-	init_pair(1, COLOR_BLACK, COLOR_WHITE);
-	init_pair(2, COLOR_WHITE, COLOR_BLACK);
+    start_color();
+    init_pair(1, COLOR_BLACK, COLOR_WHITE);
+    init_pair(2, COLOR_WHITE, COLOR_BLACK);
     clear();
     string select = welcome_screen("Welcome to Gobquest!", LINES, COLS);
     clear();
