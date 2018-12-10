@@ -27,8 +27,9 @@ TESTFILES := $(shell find $(TEST)/ -name *.cpp)   #All $TEST/.cpp files
 PREFIX   := "/usr/local/"
 
 $(BUILD)/%.o: $(SRC)/%.cpp
+	$(eval CUR_DIR := $(subst $(SRC), $(INCLUDE), $(dir $<)))
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I $(CUR_DIR) -c $< -o $@
 
 $(BIN)/gobquest: $(OBJFILES)
 	@mkdir -p $(@D)
