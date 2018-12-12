@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <cstdlib>
-#include <gobreader/linked_list.h>
-#include <gobreader/tokenizer.h>
+#include <model/gobreader/linked_list.h>
+#include <model/gobreader/tokenizer.h>
 #include <sstream>
 #include <iostream>
 
@@ -22,7 +22,7 @@ TEST (GobreaderTokenTest, CreateToken) {
     delete a;
 }
 
-TEST (GoreaderTokenizerTest, CreateTokenizer){
+TEST (GobreaderTokenizerTest, CreateTokenizer){
     tokenizer t(fs::path(test_dir + "simple.gob"));
     uint i = 0;
     for (token current_token : t){

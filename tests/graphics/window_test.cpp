@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <graphics/window.h>
+#include <view/graphics/window.h>
 
 class test_window : public window {
     public:
