@@ -3,6 +3,7 @@
 #include <view/graphics/dialog_window.h>
 #include <cstdlib>
 #include <boost/filesystem.hpp>
+#include <events/event.h>
 
 using namespace std;
 namespace fs = boost::filesystem;
@@ -31,7 +32,14 @@ string welcome_screen(string message, int rows, int cols){
     return ret;
 }
 
+void test(event* e){
+    cout << e->get_payload() << endl;
+}
+
 int main(int argc, char* argv[]){
+    event e(test, "this is the payload");
+    e.run_function();
+    return 0;
     setlocale(LC_ALL, "");
     int return_code = 0;
     initscr();
@@ -44,8 +52,8 @@ int main(int argc, char* argv[]){
     string a = "";
     if (select != "Quit"){
         terminal term(0, 0, COLS * 3 / 4, LINES);
-        //term.run();
-        a = term.read_command();
+        a = term.run();
+        //a = term.read_command();
     }
     select = welcome_screen(a, LINES, COLS);
     endwin();
