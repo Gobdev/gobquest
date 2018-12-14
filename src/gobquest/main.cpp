@@ -32,12 +32,15 @@ string welcome_screen(string message, int rows, int cols){
     return ret;
 }
 
-void test(event* e){
-    cout << e->get_payload() << endl;
+void test(string s, string s2, string s3){
+    cout << s << endl;
+    cout << "There's no way, you can't have two payloads!" << endl;
+    cout << s2 << endl;
+    cout << s3 << endl;
 }
 
 int main(int argc, char* argv[]){
-    event e(test, "this is the payload");
+    event<string, string, string> e(test, "This is the payload!", "This is the second payload!", "No way!");
     e.run_function();
     return 0;
     setlocale(LC_ALL, "");
