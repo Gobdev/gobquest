@@ -32,8 +32,7 @@ public:
         payload(forward<Args>(args)...) {};
 
     template <class... Ts, int... Is>
-    void func(std::tuple<Ts...>& tup, helper::index<Is...>)
-    {
+    void func(std::tuple<Ts...>& tup, helper::index<Is...>){
         func_ptr(std::get<Is>(tup)...);
     }
 

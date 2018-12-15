@@ -13,6 +13,7 @@ namespace fs = boost::filesystem;
 #define DEFAULT_PATH "/usr/local/gobquest"
 
 string welcome_screen(string message, int rows, int cols){
+    clear();
     dialog_window win = dialog_window(cols/4, rows/4, cols/2, rows/2, message);
 
     const char* env_p = getenv("GOBQUEST_DIR");
@@ -32,33 +33,20 @@ string welcome_screen(string message, int rows, int cols){
     return ret;
 }
 
-void test(string s, string s2, string s3){
-    cout << s << endl;
-    cout << "There's no way, you can't have two payloads!" << endl;
-    cout << s2 << endl;
-    cout << s3 << endl;
-}
-
 int main(int argc, char* argv[]){
-    event<string, string, string> e(test, "This is the payload!", "This is the second payload!", "No way!");
-    e.run_function();
-    return 0;
     setlocale(LC_ALL, "");
     int return_code = 0;
     initscr();
     start_color();
     init_pair(1, COLOR_BLACK, COLOR_WHITE);
     init_pair(2, COLOR_WHITE, COLOR_BLACK);
-    clear();
     string select = welcome_screen("Welcome to Gobquest!", LINES, COLS);
-    clear();
     string a = "";
     if (select != "Quit"){
         terminal term(0, 0, COLS * 3 / 4, LINES);
         a = term.run();
         //a = term.read_command();
     }
-    select = welcome_screen(a, LINES, COLS);
     endwin();
     return return_code;
 }
