@@ -1,9 +1,7 @@
 #include <iostream>
-#include <view/graphics/terminal.h>
 #include <view/graphics/dialog_window.h>
-#include <cstdlib>
 #include <boost/filesystem.hpp>
-#include <events/event.h>
+#include <controller/events/event_handler.h>
 
 using namespace std;
 namespace fs = boost::filesystem;
@@ -23,7 +21,7 @@ string welcome_screen(string message, int rows, int cols){
         fs::directory_iterator end_iter;
         for (fs::directory_iterator dir_itr(path); dir_itr != end_iter; ++dir_itr){
             if (fs::is_directory(dir_itr->status())){
-              win.add_option(dir_itr->path().filename().string());
+                win.add_option(dir_itr->path().filename().string());
             }
         }
     }
@@ -41,11 +39,9 @@ int main(int argc, char* argv[]){
     init_pair(1, COLOR_BLACK, COLOR_WHITE);
     init_pair(2, COLOR_WHITE, COLOR_BLACK);
     string select = welcome_screen("Welcome to Gobquest!", LINES, COLS);
-    string a = "";
     if (select != "Quit"){
-        terminal term(0, 0, COLS * 3 / 4, LINES);
-        a = term.run();
-        //a = term.read_command();
+        event_handler handler;
+        handler.run();
     }
     endwin();
     return return_code;

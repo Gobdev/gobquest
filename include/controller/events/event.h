@@ -1,13 +1,17 @@
 #ifndef EVENT_H
 #define EVENT_H
 
-#include <events/event.h>
 #include <string>
 #include <tuple>
 #include <utility>
 #include <functional>
 
 using namespace std;
+
+class event_interface {
+public:
+    virtual void run_function() = 0;
+};
 
 namespace helper
 {
@@ -21,7 +25,7 @@ namespace helper
     struct gen_seq<0, Is...> : index<Is...> {};
 }
 
-template <class... Args> class event {
+template <class... Args> class event : event_interface{
 private:
     function<void(Args... args)> func_ptr;
     tuple<Args...> payload;
