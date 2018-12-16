@@ -5,7 +5,8 @@ using namespace std;
 
 terminal::terminal(int x, int y, int width, int height) :
                    window (x, y, width, height) {
-   update();
+    nodelay(_window, TRUE);
+    update();
 }
 
 terminal::~terminal(){}
@@ -19,7 +20,11 @@ void terminal::update(){
         mvwprintw(_window, start_y + i - index, 0, history[i].c_str());
     }
     mvwprintw(_window, 0, width - 10, "%d", history.size());
-    wmove(_window, height - 3, 0);
+    if (str.size()){
+        mvwprintw(_window, height - 3, 0, str.c_str());
+    } else {
+        wmove(_window, height - 3, 0);
+    }
     refresh();
 }
 
@@ -41,4 +46,29 @@ string& terminal::read_command(){
     }
     update();
     return this->str;
+}
+
+void terminal::read_input(){
+    int c;
+    while((c = wgetch(_window)) != ERR){
+        switch(c){
+            case KEY_ENTER:
+            case 10:
+                // Call event event handler
+                this->history.push_back(this->str);
+                this->str = "";
+                if (history.size() > 100){
+                    history.erase(history.begin());
+                }
+                update();
+                break;
+            default:
+                this->str.push_back(c);
+        }
+    }
+}
+
+void terminal::test(){
+    history.push_back("This is a test.");
+    update();
 }

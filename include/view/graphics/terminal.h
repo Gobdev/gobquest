@@ -9,9 +9,11 @@ class terminal : public window{
         ~terminal();
         int run();
         string& read_command();
+        void read_input();
+        void update();
+        void test();
 
     private:
-        void update();
         string str;
         vector<string> history;
 };

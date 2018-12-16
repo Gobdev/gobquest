@@ -35,10 +35,12 @@ int main(int argc, char* argv[]){
     setlocale(LC_ALL, "");
     int return_code = 0;
     initscr();
+    //noecho();
     start_color();
     init_pair(1, COLOR_BLACK, COLOR_WHITE);
     init_pair(2, COLOR_WHITE, COLOR_BLACK);
-    string select = welcome_screen("Welcome to Gobquest!", LINES, COLS);
+    //string select = welcome_screen("Welcome to Gobquest!", LINES, COLS);
+    string select = "not quit";
     if (select != "Quit"){
         event_handler handler;
         handler.run();
