@@ -6,7 +6,7 @@ TEST     := tests
 
 CC        := g++
 CFLAGS    := -std=c++14 -g -Wall -pedantic -I$(INCLUDE) -I /usr/include/
-LDFLAGS   := -lboost_system -lboost_filesystem
+LDFLAGS   := -lboost_filesystem -lboost_system
 TESTFLAGS := -lgtest -lpthread
 
 UNAME    :=$(shell uname)

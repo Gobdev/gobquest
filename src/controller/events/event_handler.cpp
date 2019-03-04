@@ -1,5 +1,6 @@
 #include <controller/events/event_handler.h>
 
+event_handler handler;
 
 event_handler::event_handler() : term(terminal(0, 0, COLS * 3 / 4, LINES)){
     term.update();

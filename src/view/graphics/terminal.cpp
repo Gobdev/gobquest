@@ -1,4 +1,5 @@
 #include <view/graphics/terminal.h>
+#include <controller/events/event_handler.h>
 #include <string>
 
 using namespace std;
@@ -6,6 +7,7 @@ using namespace std;
 terminal::terminal(int x, int y, int width, int height) :
                    window (x, y, width, height) {
     nodelay(_window, TRUE);
+    handler.listen<terminal*>("input", noted);
     update();
 }
 
@@ -61,6 +63,7 @@ void terminal::read_input(){
                     history.erase(history.begin());
                 }
                 update();
+                //handler.emit("input");
                 break;
             default:
                 this->str.push_back(c);

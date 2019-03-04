@@ -13,10 +13,17 @@ class terminal : public window{
         void update();
         void test();
 
+        friend void noted(terminal* t);
+
     private:
         string str;
         vector<string> history;
 };
+
+
+inline void noted(terminal* t){
+    t->history.push_back("Noted!");
+}
 
 
 #endif

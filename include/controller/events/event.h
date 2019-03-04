@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class event_interface {
+class event {
 public:
     virtual void run_function() = 0;
 };
@@ -25,13 +25,13 @@ namespace helper
     struct gen_seq<0, Is...> : index<Is...> {};
 }
 
-template <class... Args> class event : event_interface{
+template <class... Args> class event_templated : public event {
 private:
     function<void(Args... args)> func_ptr;
     tuple<Args...> payload;
 
 public:
-    event(function<void(Args... args)> func,  Args&&... args) :
+    event_templated(function<void(Args... args)> func,  Args&&... args) :
         func_ptr(forward<function<void(Args... args)>>(func)),
         payload(forward<Args>(args)...) {};
 
