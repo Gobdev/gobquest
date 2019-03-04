@@ -18,17 +18,12 @@ class event_handler {
 private:
     queue<event*> low_prio;
     queue<event*> high_prio;
-    terminal term;
+    terminal* term;
 
 public:
     event_handler();
-    void run();
-
-    void do_next(){
-        event* a = high_prio.front();
-        a->run_function();
-        high_prio.pop();
-    }
+    void run(terminal* term);
+    void do_next();
 
     template <class... Args>
     void emit(string description, Args&&... args){

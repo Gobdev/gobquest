@@ -38,10 +38,6 @@ void test(string s){
 int main(int argc, char* argv[]){
     setlocale(LC_ALL, "");
     int return_code = 0;
-    handler.listen<string>("test", test);
-    handler.emit<string>("test", "This is the string");
-    handler.do_next();
-    exit(0);
     initscr();
     //noecho();
     start_color();
@@ -49,12 +45,13 @@ int main(int argc, char* argv[]){
     init_pair(2, COLOR_WHITE, COLOR_BLACK);
     //string select = welcome_screen("Welcome to Gobquest!", LINES, COLS);
     string select = "not quit";
+    terminal* term = new terminal(0, 0, COLS * 3 / 4, LINES);
     //handler = event_handler();
     if (select != "Quit"){
         //event_handler handler2;
         //event_templated<string> e(test, "str");
         //e.run_function();
-        handler.run();
+        handler.run(term);
     }
     endwin();
     return return_code;
