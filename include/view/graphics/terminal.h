@@ -12,9 +12,9 @@ class terminal : public window{
         string& read_command();
         void read_input();
         void update();
-        void test();
 
-        friend void noted(terminal* t);
+        void test();
+        void noted();
 
     private:
         string str;
@@ -22,9 +22,5 @@ class terminal : public window{
 };
 
 
-inline void noted(terminal* t){
-    t->history.push_back("Noted!");
-    t->update();
-}
 
 #endif

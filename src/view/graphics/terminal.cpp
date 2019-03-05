@@ -7,11 +7,16 @@ using namespace std;
 terminal::terminal(int x, int y, int width, int height) :
                    window (x, y, width, height) {
     nodelay(_window, TRUE);
-    handler.listen<terminal*>("input", noted);
+    handler.listen_with_object<terminal>("input", &terminal::noted);
     update();
 }
 
 terminal::~terminal(){}
+
+void terminal::noted(){
+    history.push_back("Noted!");
+    update();
+}
 
 void terminal::update(){
     draw_border();
@@ -73,6 +78,6 @@ void terminal::read_input(){
 
 void terminal::test(){
     //history.push_back("This is a test.");
-    handler.emit<terminal*>("input", this);
+    handler.emit_with_object<terminal>("input", this);
     update();
 }

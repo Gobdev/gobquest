@@ -31,10 +31,6 @@ string welcome_screen(string message, int rows, int cols){
     return ret;
 }
 
-void test(string s){
-    cout << s << endl;
-}
-
 terminal* term;
 
 void wrapper1(){
@@ -56,13 +52,10 @@ int main(int argc, char* argv[]){
     //string select = welcome_screen("Welcome to Gobquest!", LINES, COLS);
     string select = "not quit";
     term = new terminal(0, 0, COLS * 3 / 4, LINES);
-    //handler = event_handler();
     if (select != "Quit"){
-        //event_handler handler2;
-        //event_templated<string> e(test, "str");
-        //e.run_function();
         handler.run(wrapper1, wrapper2);
     }
     endwin();
+    delete term;
     return return_code;
 }
