@@ -72,6 +72,7 @@ void terminal::read_input(){
 }
 
 void terminal::test(){
-    history.push_back("This is a test.");
+    //history.push_back("This is a test.");
+    handler.emit<terminal*>("input", this);
     update();
 }

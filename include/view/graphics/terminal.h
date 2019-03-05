@@ -1,6 +1,7 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
 #include <view/graphics/window.h>
+#include <controller/events/event_handler.h>
 
 class terminal : public window{
 
@@ -23,7 +24,7 @@ class terminal : public window{
 
 inline void noted(terminal* t){
     t->history.push_back("Noted!");
+    t->update();
 }
-
 
 #endif

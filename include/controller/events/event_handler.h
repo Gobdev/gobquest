@@ -18,11 +18,10 @@ class event_handler {
 private:
     queue<event*> low_prio;
     queue<event*> high_prio;
-    terminal* term;
 
 public:
     event_handler();
-    void run(terminal* term);
+    void run(function<void()> f1, function<void()> f2);
     void do_next();
 
     template <class... Args>
@@ -31,7 +30,6 @@ public:
         auto it = current_map.find(description);
         if (it != current_map.end()){
             function<void(Args... args)> func = it->second;
-            cout << description << " event noted!" << endl;
             event* a = new event_templated<Args...>(func, forward<Args>(args)...);
             high_prio.push(a);
         }

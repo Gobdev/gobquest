@@ -4,21 +4,22 @@ event_handler handler;
 
 event_handler::event_handler(){}
 
-void event_handler::run(terminal* term){
-    this->term = term;
+void event_handler::run(function<void()> f1, function<void()> f2){
     int i = 0;
     while(true){
         // Check if terminal has new input
-        term->read_input();
+        //term->read_input();
+        f1();
         if ((++i % 1000000) == 0){
-            term->test();
+            f2();
+            //term->test();
         }
-        //do_next();
+        do_next();
     }
 }
 
 void event_handler::do_next(){
-    queue<event*> q = high_prio.size() > 0 ? high_prio : low_prio;
+    queue<event*>& q = high_prio.size() > 0 ? high_prio : low_prio;
     if (q.size() <= 0){
         return;
     }

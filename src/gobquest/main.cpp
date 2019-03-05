@@ -35,6 +35,16 @@ void test(string s){
     cout << s << endl;
 }
 
+terminal* term;
+
+void wrapper1(){
+    term->read_input();
+}
+
+void wrapper2(){
+    term->test();
+}
+
 int main(int argc, char* argv[]){
     setlocale(LC_ALL, "");
     int return_code = 0;
@@ -45,13 +55,13 @@ int main(int argc, char* argv[]){
     init_pair(2, COLOR_WHITE, COLOR_BLACK);
     //string select = welcome_screen("Welcome to Gobquest!", LINES, COLS);
     string select = "not quit";
-    terminal* term = new terminal(0, 0, COLS * 3 / 4, LINES);
+    term = new terminal(0, 0, COLS * 3 / 4, LINES);
     //handler = event_handler();
     if (select != "Quit"){
         //event_handler handler2;
         //event_templated<string> e(test, "str");
         //e.run_function();
-        handler.run(term);
+        handler.run(wrapper1, wrapper2);
     }
     endwin();
     return return_code;
