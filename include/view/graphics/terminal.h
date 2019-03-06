@@ -11,12 +11,14 @@ class terminal : public window{
         int run();
         string& read_command();
         void read_input();
+        void print_string(string str);
         void update();
 
         void test();
         void noted();
 
     private:
+        void add_line(string line);
         string str;
         vector<string> history;
 };

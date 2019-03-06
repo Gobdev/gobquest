@@ -2,7 +2,14 @@
 
 event_handler handler;
 
-event_handler::event_handler(){}
+void temp(string str){
+    string s = "Got command " + str + ". Amazing!";
+    handler.emit<string>("print", s);
+}
+
+event_handler::event_handler(){
+    this->listen<string>("input", temp);
+}
 
 void event_handler::run(function<void()> f1, function<void()> f2){
     int i = 0;
@@ -26,4 +33,5 @@ void event_handler::do_next(){
     event* a = q.front();
     a->run_function();
     q.pop();
+    delete a;
 }

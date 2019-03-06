@@ -11,6 +11,7 @@ using namespace std;
 class event {
 public:
     virtual void run_function() = 0;
+    virtual ~event(){};
 };
 
 namespace helper
@@ -63,7 +64,7 @@ public:
 
     template <class... Ts, int... Is>
     void func(std::tuple<Ts...>& tup, helper::index<Is...>){
-        func_ptr(std::get<Is>(tup)...);
+        func_ptr(obj, std::get<Is>(tup)...);
     }
 
     void func(std::tuple<Args...>& tup) {
@@ -71,8 +72,7 @@ public:
     }
 
     void run_function() {
-        function<void(Args... args)> f = bind(func_ptr, obj);
-        f();
+        func(payload);
     }
 };
 

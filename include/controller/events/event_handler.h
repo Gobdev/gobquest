@@ -14,6 +14,39 @@ using namespace std;
 template<class T>
 map<string, T> listeners;
 
+template<class... Args>
+class function_holder{
+public:
+    virtual event* create_event(Args... args) = 0;
+};
+
+template<class... Args>
+class function_holder_static : public function_holder<Args...> {
+private:
+    function<void(Args... args)> func;
+
+public:
+    function_holder_static(void func(Args... args)) : func(func) {};
+
+    event* create_event(Args... args) {
+        return new event_templated<Args...>(func, forward<Args>(args)...);;
+    }
+};
+
+template<class T, class... Args>
+class function_holder_member : public function_holder<Args...> {
+private:
+    function<void(T*, Args... args)> func;
+    T* obj;
+
+public:
+    function_holder_member(void (T::*func)(Args... args), T* obj) : func(func), obj(obj) {};
+
+    event* create_event(Args... args) {
+        return new event_templated_with_object<T, Args...>(func, obj, forward<Args>(args)...);
+    }
+};
+
 class event_handler {
 private:
     queue<event*> low_prio;
@@ -25,39 +58,28 @@ public:
     void do_next();
 
     template <class... Args>
-    void emit(string description, Args&&... args){
-        auto current_map = listeners<function<void(Args... args)>>;
+    void emit(string description, Args... args){
+        auto current_map = listeners<function_holder<Args...>*>;
         auto it = current_map.find(description);
         if (it != current_map.end()){
-            function<void(Args... args)> func = it->second;
-            event* a = new event_templated<Args...>(func, forward<Args>(args)...);
-            high_prio.push(a);
-        }
-    }
-
-    template <class T, class... Args>
-    void emit_with_object(string description, T* obj, Args&&... args){
-        auto current_map = listeners<function<void(T*, Args... args)>>;
-        auto it = current_map.find(description);
-        if (it != current_map.end()){
-            function<void(T*, Args... args)> func = it->second;
-            event* a = new event_templated_with_object<T, Args...>(func, obj, forward<Args>(args)...);
+            function_holder<Args...>* holder = it->second;
+            event* a = holder->create_event(forward<Args>(args)...);
             high_prio.push(a);
         }
     }
 
     template <class... Args>
     void listen(string description, void func(Args... args)){
-        function<void(Args... args)> a = func;
-        auto p = std::pair<string, function<void(Args... args)>>(description, a);
-        listeners<function<void(Args... args)>>.insert(p);
+        function_holder<Args...>* a = new function_holder_static<Args...>(func);
+        auto p = std::pair<string, function_holder<Args...>*>(description, a);
+        listeners<function_holder<Args...>*>.insert(p);
     }
 
     template <class T, class... Args>
-    void listen_with_object(string description, void (T::*func)(Args... args)){
-        function<void(T*, Args... args)> a = func;
-        auto p = std::pair<string, function<void(T*, Args... args)>>(description, a);
-        listeners<function<void(T*, Args... args)>>.insert(p);
+    void listen(string description, void (T::*func)(Args... args), T* obj){
+        function_holder<Args...>* a = new function_holder_member<T, Args...>(func, obj);
+        auto p = std::pair<string, function_holder<Args...>*>(description, a);
+        listeners<function_holder<Args...>*>.insert(p);
     }
 
 };

@@ -4,10 +4,14 @@
 
 using namespace std;
 
+void f(){
+    ;
+}
+
 terminal::terminal(int x, int y, int width, int height) :
                    window (x, y, width, height) {
     nodelay(_window, TRUE);
-    handler.listen_with_object<terminal>("input", &terminal::noted);
+    handler.listen<terminal, string>("print", &terminal::print_string, this);
     update();
 }
 
@@ -61,14 +65,10 @@ void terminal::read_input(){
         switch(c){
             case KEY_ENTER:
             case 10:
-                // Call event event handler
-                this->history.push_back(this->str);
+                // Call event handler
+                handler.emit<string>("input", this->str);
+                add_line(this->str);
                 this->str = "";
-                if (history.size() > 100){
-                    history.erase(history.begin());
-                }
-                update();
-                //handler.emit("input");
                 break;
             default:
                 this->str.push_back(c);
@@ -76,8 +76,25 @@ void terminal::read_input(){
     }
 }
 
+void terminal::print_string(string str){
+    size_t pos = 0;
+    string token;
+    add_line(str);
+    /*while ((pos = str.find('\n')) != string::npos) {
+        token = str.substr(0, pos);
+        add_line(token);
+        str.erase(0, pos + 1);
+    }*/
+}
+
+void terminal::add_line(string line){
+    this->history.push_back(line);
+    if (history.size() > 100){
+        history.erase(history.begin());
+    }
+    update();
+}
+
 void terminal::test(){
-    //history.push_back("This is a test.");
-    handler.emit_with_object<terminal>("input", this);
     update();
 }
