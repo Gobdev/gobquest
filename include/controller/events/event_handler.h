@@ -11,12 +11,25 @@
 
 using namespace std;
 
+enum priority {
+    LOW_PRIORITY = 0,
+    HIGH_PRIORITY = 1
+};
+
 template<class T>
 map<string, T> listeners;
 
 template<class... Args>
 class function_holder{
+protected:
+    priority prio = LOW_PRIORITY; // Default is low priority
 public:
+    function_holder(priority prio) : prio(prio) {};
+
+    priority get_priority(){
+        return this->prio;
+    }
+    // Pure virtual function that creates an event.
     virtual event* create_event(Args... args) = 0;
 };
 
@@ -26,7 +39,7 @@ private:
     function<void(Args... args)> func;
 
 public:
-    function_holder_static(void func(Args... args)) : func(func) {};
+    function_holder_static(priority prio, void func(Args... args)) : function_holder<Args...>(prio), func(func) {};
 
     event* create_event(Args... args) {
         return new event_templated<Args...>(func, forward<Args>(args)...);;
@@ -40,7 +53,7 @@ private:
     T* obj;
 
 public:
-    function_holder_member(void (T::*func)(Args... args), T* obj) : func(func), obj(obj) {};
+    function_holder_member(priority prio, void (T::*func)(Args... args), T* obj) : function_holder<Args...>(prio), func(func), obj(obj) {};
 
     event* create_event(Args... args) {
         return new event_templated_with_object<T, Args...>(func, obj, forward<Args>(args)...);
@@ -69,15 +82,15 @@ public:
     }
 
     template <class... Args>
-    void listen(string description, void func(Args... args)){
-        function_holder<Args...>* a = new function_holder_static<Args...>(func);
+    void listen(string description, void func(Args... args), priority prio = LOW_PRIORITY){
+        function_holder<Args...>* a = new function_holder_static<Args...>(prio, func);
         auto p = std::pair<string, function_holder<Args...>*>(description, a);
         listeners<function_holder<Args...>*>.insert(p);
     }
 
     template <class T, class... Args>
-    void listen(string description, void (T::*func)(Args... args), T* obj){
-        function_holder<Args...>* a = new function_holder_member<T, Args...>(func, obj);
+    void listen(string description, void (T::*func)(Args... args), T* obj, priority prio = LOW_PRIORITY){
+        function_holder<Args...>* a = new function_holder_member<T, Args...>(prio, func, obj);
         auto p = std::pair<string, function_holder<Args...>*>(description, a);
         listeners<function_holder<Args...>*>.insert(p);
     }
