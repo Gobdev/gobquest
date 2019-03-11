@@ -1,4 +1,5 @@
 #include <controller/events/event_handler.h>
+#include <controller/debugger/debugger.h>
 
 event_handler handler;
 
@@ -11,7 +12,7 @@ event_handler::event_handler(){
     this->listen<string>("input", temp);
 }
 
-void event_handler::run(function<void()> f1, function<void()> f2, function<void(string)> debug_print){
+void event_handler::run(function<void()> f1, function<void()> f2){
     int i = 0;
     while(true){
         try {

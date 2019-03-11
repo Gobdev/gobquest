@@ -68,7 +68,7 @@ private:
 
 public:
     event_handler();
-    void run(function<void()> f1, function<void()> f2, function<void(string)> debug_print);
+    void run(function<void()> f1, function<void()> f2);
     void do_next();
 
     template <class... Args>

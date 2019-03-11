@@ -2,6 +2,7 @@
 #include <view/graphics/dialog_window.h>
 #include <boost/filesystem.hpp>
 #include <controller/events/event_handler.h>
+#include <controller/debugger/debugger.h>
 
 using namespace std;
 namespace fs = boost::filesystem;
@@ -9,6 +10,8 @@ namespace fs = boost::filesystem;
 #define WIDTH 30
 #define HEIGHT 10
 #define DEFAULT_PATH "/usr/local/gobquest"
+
+function<void(string)> debug_print_function;
 
 string welcome_screen(string message, int rows, int cols){
     clear();
@@ -41,7 +44,7 @@ void wrapper2(){
     term->test();
 }
 
-void debug_print(string s){
+void print_debug(string s){
     term->print_debug("Exception caught : " + s);
 }
 
@@ -56,8 +59,9 @@ int main(int argc, char* argv[]){
     //string select = welcome_screen("Welcome to Gobquest!", LINES, COLS);
     string select = "not quit";
     term = new terminal(0, 0, COLS * 3 / 4, LINES);
+    debug_print_function = print_debug;
     if (select != "Quit"){
-        handler.run(wrapper1, wrapper2, debug_print);
+        handler.run(wrapper1, wrapper2);
     }
     keypad(stdscr, 0);
     endwin();
