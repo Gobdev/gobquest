@@ -114,6 +114,10 @@ void terminal::add_line(string line){
     add_line_inner(line);
 }
 
+void terminal::print_debug(string str){
+    add_line("==DEBUG PRINT== " + str);
+}
+
 void terminal::test(){
     update();
 }

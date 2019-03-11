@@ -11,17 +11,21 @@ event_handler::event_handler(){
     this->listen<string>("input", temp);
 }
 
-void event_handler::run(function<void()> f1, function<void()> f2){
+void event_handler::run(function<void()> f1, function<void()> f2, function<void(string)> debug_print){
     int i = 0;
     while(true){
-        // Check if terminal has new input
-        //term->read_input();
-        f1();
-        if ((++i % 1000000) == 0){
-            f2();
-            //term->test();
+        try {
+            // Check if terminal has new input
+            //term->read_input();
+            f1();
+            if ((++i % 1000000) == 0){
+                f2();
+                //term->test();
+            }
+            do_next();
+        } catch(exception& e){
+            debug_print(string(e.what()));
         }
-        do_next();
     }
 }
 

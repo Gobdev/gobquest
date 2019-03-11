@@ -41,6 +41,10 @@ void wrapper2(){
     term->test();
 }
 
+void debug_print(string s){
+    term->print_debug("Exception caught : " + s);
+}
+
 int main(int argc, char* argv[]){
     setlocale(LC_ALL, "");
     int return_code = 0;
@@ -53,7 +57,7 @@ int main(int argc, char* argv[]){
     string select = "not quit";
     term = new terminal(0, 0, COLS * 3 / 4, LINES);
     if (select != "Quit"){
-        handler.run(wrapper1, wrapper2);
+        handler.run(wrapper1, wrapper2, debug_print);
     }
     endwin();
     delete term;

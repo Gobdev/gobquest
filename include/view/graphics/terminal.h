@@ -17,6 +17,8 @@ class terminal : public window{
         void test();
         void noted();
 
+        void print_debug(string str);
+
     private:
         void add_line(string line);
         void add_line_inner(string line);
