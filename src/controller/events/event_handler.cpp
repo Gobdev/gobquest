@@ -26,7 +26,14 @@ void event_handler::run(function<void()> f1, function<void()> f2){
 }
 
 void event_handler::do_next(){
-    queue<event*>& q = high_prio.size() > 0 ? high_prio : low_prio;
+    queue<event*>& q;
+    if (high_prio.size() > 0 && high_prio_streak < 3){
+        q = high_prio;
+        high_prio_streak++;
+    } else {
+        q = low_prio;
+        high_prio_streak = 0;
+    }
     if (q.size() <= 0){
         return;
     }

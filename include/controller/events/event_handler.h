@@ -64,6 +64,7 @@ class event_handler {
 private:
     queue<event*> low_prio;
     queue<event*> high_prio;
+    int high_prio_streak = 0;
 
 public:
     event_handler();
@@ -76,8 +77,12 @@ public:
         auto it = current_map.find(description);
         if (it != current_map.end()){
             function_holder<Args...>* holder = it->second;
-            event* a = holder->create_event(forward<Args>(args)...);
-            high_prio.push(a);
+            event* e = holder->create_event(forward<Args>(args)...);
+            if (holder->get_priority() == HIGH_PRIORITY){
+                high_prio.push(e);
+            } else {
+                low_prio.push(e);
+            }
         }
     }
 
