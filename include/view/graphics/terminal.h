@@ -24,15 +24,22 @@ class terminal : public window{
         void add_line_inner(string line);
         string str;
         vector<string> history;
-        size_t cursor_pos;
+        vector<string> input_history;
+        size_t cursor_pos = 0;
 
+        // Handler for standard ascii keys
         void add_char(char c);
-        void delete_next();
-        void backspace();
-        void left();
-        void right();
-        void up();
-        void down();
+
+        // Specific key handlers
+        void enter_key();
+        void delete_key();
+        void backspace_key();
+        void left_key();
+        void right_key();
+        void up_key();
+        void down_key();
+        void home_key();
+        void end_key();
 };
 
 

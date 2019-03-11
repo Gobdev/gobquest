@@ -33,11 +33,7 @@ void terminal::update(){
         mvwprintw(_window, start_y + i - index, 0, history[i].c_str());
     }
     mvwprintw(_window, 0, width - 10, "%d", history.size());
-    if (str.size()){
-        mvwprintw(_window, height - 3, 0, str.c_str());
-    } else {
-        wmove(_window, height - 3, 0);
-    }
+    mvwprintw(_window, height - 3, 0, str.c_str());
     wmove(_window, height - 3, cursor_pos);
     refresh();
 }
@@ -68,31 +64,34 @@ void terminal::read_input(){
         switch(c){
             case KEY_ENTER:
             case 10:
-                // Call event handler
-                handler.emit<string>("input", this->str);
-                add_line(this->str);
-                this->str = "";
+                enter_key();
                 break;
             case KEY_DC:
-                delete_next();
+                delete_key();
                 break;
             case KEY_BACKSPACE:
-                backspace();
+                backspace_key();
                 break;
             case KEY_LEFT:
-                left();
+                left_key();
                 break;
             case KEY_RIGHT:
-                right();
+                right_key();
                 break;
             case KEY_UP:
-                up();
+                up_key();
                 break;
             case KEY_DOWN:
-                down();
+                down_key();
+                break;
+            case KEY_HOME:
+                home_key();
+                break;
+            case KEY_END:
+                end_key();
                 break;
             default:
-                if (c >= 32){
+                if (c >= 32 && c <= 255){
                     add_char(c);
                 } else {
                     ostringstream debug_str;
@@ -105,14 +104,27 @@ void terminal::read_input(){
 }
 
 
-void terminal::delete_next(){
+void terminal::add_char(char c){
+    this->str.insert(cursor_pos, 1, c);
+    cursor_pos++;
+    update();
+}
+
+void terminal::enter_key(){
+    handler.emit<string>("input", this->str);
+    add_line(this->str);
+    this->str = "";
+    cursor_pos = 0;
+}
+
+void terminal::delete_key(){
     if (cursor_pos != this->str.size()){
         this->str.erase(cursor_pos, 1);
         update();
     }
 }
 
-void terminal::backspace(){
+void terminal::backspace_key(){
     if (cursor_pos > 0){
         this->str.erase(cursor_pos - 1, 1);
         cursor_pos--;
@@ -120,27 +132,32 @@ void terminal::backspace(){
     }
 }
 
-void terminal::left(){
+void terminal::left_key(){
     if (cursor_pos > 0){
         cursor_pos--;
         update();
     }
 }
 
-void terminal::right(){
+void terminal::right_key(){
     if (cursor_pos < this->str.size()){
         cursor_pos++;
         update();
     }
 }
 
-void terminal::up(){}
+void terminal::up_key(){}
 
-void terminal::down(){}
+void terminal::down_key(){}
 
-void terminal::add_char(char c){
-    this->str.insert(cursor_pos, 1, c);
-    cursor_pos++;
+void terminal::home_key(){
+    cursor_pos = 0;
+    update();
+}
+
+void terminal::end_key(){
+    cursor_pos = this->str.size();
+    update();
 }
 
 void terminal::print_string(string str){
