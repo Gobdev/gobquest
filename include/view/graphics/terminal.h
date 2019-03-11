@@ -25,10 +25,12 @@ class terminal : public window{
         string str;
         vector<string> history;
         vector<string> input_history;
+        size_t history_pos = 0;
         size_t cursor_pos = 0;
 
         // Handler for standard ascii keys
         void add_char(char c);
+        const string& current_string();
 
         // Specific key handlers
         void enter_key();
@@ -40,6 +42,7 @@ class terminal : public window{
         void down_key();
         void home_key();
         void end_key();
+        void set_current_string();
 };
 
 

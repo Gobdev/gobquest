@@ -33,7 +33,11 @@ void terminal::update(){
         mvwprintw(_window, start_y + i - index, 0, history[i].c_str());
     }
     mvwprintw(_window, 0, width - 10, "%d", history.size());
-    mvwprintw(_window, height - 3, 0, str.c_str());
+    if (history_pos == 0){
+        mvwprintw(_window, height - 3, 0, str.c_str());
+    } else {
+        mvwprintw(_window, height - 3, 0, input_history[input_history.size() - history_pos].c_str());
+    }
     wmove(_window, height - 3, cursor_pos);
     refresh();
 }
@@ -100,64 +104,103 @@ void terminal::read_input(){
                     print_debug(this->str);
                 }
         }
+        update();
     }
 }
 
 
 void terminal::add_char(char c){
+    set_current_string();
+    if (history_pos > 0){
+        this->str = input_history[input_history.size() - history_pos];
+        history_pos = 0;
+    }
     this->str.insert(cursor_pos, 1, c);
     cursor_pos++;
-    update();
 }
 
 void terminal::enter_key(){
+    set_current_string();
     handler.emit<string>("input", this->str);
     add_line(this->str);
+    input_history.push_back(this->str);
+    if (input_history.size() > 30){
+        input_history.erase(input_history.begin());
+    }
     this->str = "";
     cursor_pos = 0;
 }
 
 void terminal::delete_key(){
+    set_current_string();
     if (cursor_pos != this->str.size()){
         this->str.erase(cursor_pos, 1);
-        update();
     }
 }
 
 void terminal::backspace_key(){
+    set_current_string();
     if (cursor_pos > 0){
         this->str.erase(cursor_pos - 1, 1);
         cursor_pos--;
-        update();
     }
 }
 
 void terminal::left_key(){
     if (cursor_pos > 0){
         cursor_pos--;
-        update();
     }
 }
 
 void terminal::right_key(){
-    if (cursor_pos < this->str.size()){
+    if (cursor_pos < current_string().size()){
         cursor_pos++;
-        update();
     }
 }
 
-void terminal::up_key(){}
+void terminal::up_key(){
+    if (history_pos < input_history.size()){
+        history_pos++;
+        cursor_pos = input_history[input_history.size() - history_pos].length();
+    }
+}
 
-void terminal::down_key(){}
+void terminal::down_key(){
+    if (history_pos > 0){
+        history_pos--;
+        if (history_pos == 0){
+            cursor_pos = this->str.length();
+        } else {
+            cursor_pos = input_history[input_history.size() - history_pos].length();
+        }
+    }
+}
 
 void terminal::home_key(){
     cursor_pos = 0;
-    update();
 }
 
 void terminal::end_key(){
-    cursor_pos = this->str.size();
-    update();
+    cursor_pos = current_string().size();
+}
+
+const string& terminal::current_string(){
+    if (history_pos == 0){
+        return this->str;
+    } else {
+        return input_history[input_history.size() - history_pos];
+    }
+}
+
+void terminal::set_current_string(){
+    /**
+     *  Set current string that is being viewed in input history to the
+     *  terminal's current input string.
+     */
+    if (history_pos != 0){
+        this->str = input_history[input_history.size() - history_pos];
+        history_pos = 0;
+    }
 }
 
 void terminal::print_string(string str){
