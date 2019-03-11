@@ -24,7 +24,9 @@ class terminal : public window{
         void add_line_inner(string line);
         string str;
         vector<string> history;
+        size_t cursor_pos;
 
+        void add_char(char c);
         void delete_next();
         void backspace();
         void left();

@@ -38,6 +38,7 @@ void terminal::update(){
     } else {
         wmove(_window, height - 3, 0);
     }
+    wmove(_window, height - 3, cursor_pos);
     refresh();
 }
 
@@ -92,7 +93,7 @@ void terminal::read_input(){
                 break;
             default:
                 if (c >= 32){
-                    this->str.push_back(c);
+                    add_char(c);
                 } else {
                     ostringstream debug_str;
                     debug_str << "Got unexpected key: " << (int) c;
@@ -104,17 +105,43 @@ void terminal::read_input(){
 }
 
 
-void terminal::delete_next(){}
+void terminal::delete_next(){
+    if (cursor_pos != this->str.size()){
+        this->str.erase(cursor_pos, 1);
+        update();
+    }
+}
 
-void terminal::backspace(){}
+void terminal::backspace(){
+    if (cursor_pos > 0){
+        this->str.erase(cursor_pos - 1, 1);
+        cursor_pos--;
+        update();
+    }
+}
 
-void terminal::left(){}
+void terminal::left(){
+    if (cursor_pos > 0){
+        cursor_pos--;
+        update();
+    }
+}
 
-void terminal::right(){}
+void terminal::right(){
+    if (cursor_pos < this->str.size()){
+        cursor_pos++;
+        update();
+    }
+}
 
 void terminal::up(){}
 
 void terminal::down(){}
+
+void terminal::add_char(char c){
+    this->str.insert(cursor_pos, 1, c);
+    cursor_pos++;
+}
 
 void terminal::print_string(string str){
     size_t pos = 0;
