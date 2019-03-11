@@ -79,20 +79,39 @@ void terminal::read_input(){
 void terminal::print_string(string str){
     size_t pos = 0;
     string token;
-    add_line(str);
-    /*while ((pos = str.find('\n')) != string::npos) {
+    while ((pos = str.find('\n')) != string::npos) {
         token = str.substr(0, pos);
         add_line(token);
         str.erase(0, pos + 1);
-    }*/
+    }
+    add_line(str);
 }
 
-void terminal::add_line(string line){
+void terminal::add_line_inner(string line){
+    /**
+     *  Add a line that is verified to be the correct length.
+     *
+     *  Note: This function should not be used directly except for in add_line,
+     *        use add_line instead.
+     */
     this->history.push_back(line);
     if (history.size() > 100){
         history.erase(history.begin());
     }
     update();
+}
+
+void terminal::add_line(string line){
+    /**
+     *  Splice a given line into segments that fit in the window and then
+     *  add the segments to history and print them.
+     */
+    while((int) line.length() > width - 2){
+        string sub = line.substr(0, width - 2);
+        add_line_inner(sub);
+        line.erase(0, width - 1);
+    }
+    add_line_inner(line);
 }
 
 void terminal::test(){

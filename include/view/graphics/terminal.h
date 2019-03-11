@@ -19,6 +19,7 @@ class terminal : public window{
 
     private:
         void add_line(string line);
+        void add_line_inner(string line);
         string str;
         vector<string> history;
 };
