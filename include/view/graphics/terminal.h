@@ -24,6 +24,13 @@ class terminal : public window{
         void add_line_inner(string line);
         string str;
         vector<string> history;
+
+        void delete_next();
+        void backspace();
+        void left();
+        void right();
+        void up();
+        void down();
 };
 
 

@@ -59,6 +59,7 @@ int main(int argc, char* argv[]){
     if (select != "Quit"){
         handler.run(wrapper1, wrapper2, debug_print);
     }
+    keypad(stdscr, 0);
     endwin();
     delete term;
     return return_code;

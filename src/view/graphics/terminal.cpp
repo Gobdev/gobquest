@@ -1,6 +1,7 @@
 #include <view/graphics/terminal.h>
 #include <controller/events/event_handler.h>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -11,6 +12,7 @@ void f(){
 terminal::terminal(int x, int y, int width, int height) :
                    window (x, y, width, height) {
     nodelay(_window, TRUE);
+    keypad(_window, TRUE);
     handler.listen<terminal, string>("print", &terminal::print_string, this);
     update();
 }
@@ -70,11 +72,49 @@ void terminal::read_input(){
                 add_line(this->str);
                 this->str = "";
                 break;
+            case KEY_DC:
+                delete_next();
+                break;
+            case KEY_BACKSPACE:
+                backspace();
+                break;
+            case KEY_LEFT:
+                left();
+                break;
+            case KEY_RIGHT:
+                right();
+                break;
+            case KEY_UP:
+                up();
+                break;
+            case KEY_DOWN:
+                down();
+                break;
             default:
-                this->str.push_back(c);
+                if (c >= 32){
+                    this->str.push_back(c);
+                } else {
+                    ostringstream debug_str;
+                    debug_str << "Got unexpected key: " << (int) c;
+                    print_debug(debug_str.str());
+                    print_debug(this->str);
+                }
         }
     }
 }
+
+
+void terminal::delete_next(){}
+
+void terminal::backspace(){}
+
+void terminal::left(){}
+
+void terminal::right(){}
+
+void terminal::up(){}
+
+void terminal::down(){}
 
 void terminal::print_string(string str){
     size_t pos = 0;
