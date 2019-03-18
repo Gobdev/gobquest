@@ -12,6 +12,7 @@ namespace fs = boost::filesystem;
 #define DEFAULT_PATH "/usr/local/gobquest"
 
 function<void(string)> debug_print_function;
+debug_stream debug;
 
 string welcome_screen(string message, int rows, int cols){
     clear();
@@ -45,7 +46,7 @@ void wrapper2(){
 }
 
 void print_debug(string s){
-    term->print_debug("Exception caught : " + s);
+    term->print_debug(s);
 }
 
 int main(int argc, char* argv[]){

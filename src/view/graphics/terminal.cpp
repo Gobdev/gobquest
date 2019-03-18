@@ -42,26 +42,6 @@ void terminal::update(){
     refresh();
 }
 
-int terminal::run(){
-    bool cont = true;
-    while(cont){
-        this->read_command();
-    }
-    return 0;
-}
-
-string& terminal::read_command(){
-    char c[150];
-    wgetstr(_window, c);
-    this->str = string(c);
-    this->history.push_back(str);
-    if (history.size() > 100){
-        history.erase(history.begin());
-    }
-    update();
-    return this->str;
-}
-
 void terminal::read_input(){
     int c;
     while((c = wgetch(_window)) != ERR){
@@ -101,7 +81,7 @@ void terminal::read_input(){
                     ostringstream debug_str;
                     debug_str << "Got unexpected key: " << (int) c;
                     print_debug(debug_str.str());
-                    print_debug(this->str);
+                    //print_debug(this->str);
                 }
         }
         update();
@@ -116,7 +96,10 @@ void terminal::add_char(char c){
         history_pos = 0;
     }
     this->str.insert(cursor_pos, 1, c);
-    cursor_pos++;
+    // For unicode: only update cursor_pos once per unicode character
+    if (!(c & 0x80) || (c & 0xC0) != 0x80) {
+        cursor_pos++;
+    }
 }
 
 void terminal::enter_key(){
@@ -127,8 +110,9 @@ void terminal::enter_key(){
     if (input_history.size() > 30){
         input_history.erase(input_history.begin());
     }
-    this->str = "";
+    this->str = unicode_string("");
     cursor_pos = 0;
+    str_length = 0;
 }
 
 void terminal::delete_key(){
@@ -153,7 +137,7 @@ void terminal::left_key(){
 }
 
 void terminal::right_key(){
-    if (cursor_pos < current_string().size()){
+    if (cursor_pos < current_string().unicode_length()){
         cursor_pos++;
     }
 }
@@ -161,7 +145,7 @@ void terminal::right_key(){
 void terminal::up_key(){
     if (history_pos < input_history.size()){
         history_pos++;
-        cursor_pos = input_history[input_history.size() - history_pos].length();
+        cursor_pos = input_history[input_history.size() - history_pos].unicode_length();
     }
 }
 
@@ -169,9 +153,9 @@ void terminal::down_key(){
     if (history_pos > 0){
         history_pos--;
         if (history_pos == 0){
-            cursor_pos = this->str.length();
+            cursor_pos = this->str.unicode_length();
         } else {
-            cursor_pos = input_history[input_history.size() - history_pos].length();
+            cursor_pos = input_history[input_history.size() - history_pos].unicode_length();
         }
     }
 }
@@ -181,10 +165,10 @@ void terminal::home_key(){
 }
 
 void terminal::end_key(){
-    cursor_pos = current_string().size();
+    cursor_pos = current_string().unicode_length();
 }
 
-const string& terminal::current_string(){
+const unicode_string& terminal::current_string(){
     if (history_pos == 0){
         return this->str;
     } else {

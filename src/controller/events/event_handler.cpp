@@ -25,7 +25,7 @@ void event_handler::run(function<void()> f1, function<void()> f2){
             }
             do_next();
         } catch(exception& e){
-            debug_print(string(e.what()));
+            debug_print("Exception caught : " + string(e.what()));
         }
     }
 }
