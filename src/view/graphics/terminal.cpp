@@ -1,5 +1,6 @@
 #include <view/graphics/terminal.h>
 #include <controller/events/event_handler.h>
+#include <controller/debugger/debugger.h>
 #include <string>
 #include <sstream>
 
@@ -13,7 +14,7 @@ terminal::terminal(int x, int y, int width, int height) :
                    window (x, y, width, height) {
     nodelay(_window, TRUE);
     keypad(_window, TRUE);
-    handler.listen<terminal, string>("print", &terminal::print_string, this);
+    handler.listen("print", this, &terminal::print_string);
     update();
 }
 
@@ -78,10 +79,7 @@ void terminal::read_input(){
                 if (c >= 32 && c <= 255){
                     add_char(c);
                 } else {
-                    ostringstream debug_str;
-                    debug_str << "Got unexpected key: " << (int) c;
-                    print_debug(debug_str.str());
-                    //print_debug(this->str);
+                    debug << "Got unexpected key: " << (int) c << endl;
                 }
         }
         update();

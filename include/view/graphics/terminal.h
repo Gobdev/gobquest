@@ -40,7 +40,7 @@ public:
                 }
             }
         }
-        debug << "Inserting at: " << pos << endl;
+        //debug << "Inserting at: " << pos << endl;
         string::insert(pos, length, c);
     }
 };

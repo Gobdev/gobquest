@@ -94,7 +94,7 @@ public:
     }
 
     template <class T, class... Args>
-    void listen(string description, void (T::*func)(Args... args), T* obj, priority prio = LOW_PRIORITY){
+    void listen(string description, T* obj, void (T::*func)(Args... args), priority prio = LOW_PRIORITY){
         function_holder<Args...>* a = new function_holder_member<T, Args...>(prio, func, obj);
         auto p = std::pair<string, function_holder<Args...>*>(description, a);
         listeners<function_holder<Args...>*>.insert(p);

@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <string>
+#include <iostream>
 #include <sstream>
 #include <bitset>
 #include <algorithm>
@@ -11,68 +12,41 @@ using namespace std;
 
 extern function<void(string)> debug_print_function;
 
-inline void debug_print(string s){
-    debug_print_function(s);
-}
+class debug_stream {
+private:
+    ostringstream inner_stream;
 
-inline void debug_print(int i){
-    ostringstream debug_str;
-    debug_str << "(int) " << i;
-    debug_print_function(debug_str.str());
-}
-
-inline void debug_print(char c){
-    ostringstream debug_str;
-    std::bitset<8> x(c);
-    debug_str << "(char) " << c << ", (" << (int) c << "), (" << x << ")";
-    debug_print_function(debug_str.str());
-}
-
-inline void debug_print(size_t s){
-    ostringstream debug_str;
-    debug_str << "(size_t) " << s;
-    debug_print_function(debug_str.str());
-}
-
-class debug_stream : public ostringstream{
 public:
+    inline debug_stream(){
+        inner_stream = ostringstream(ostringstream::ate);
+    }
 
-    debug_stream& operator<<(const string &a) {
-        ostringstream& os = (std::ostringstream&)(*this);
-        os << a;
-        if (count(a.begin(), a.end(), '\n') > 0){
-            debug_print_function(str());
-            str("");
+    void flush(){
+        debug_print_function(inner_stream.str());
+        inner_stream.str("");
+    }
+
+    void print_newlines(){
+        string str = inner_stream.str();
+        string::size_type pos = 0;
+        while ((pos = str.find('\n')) != string::npos) {
+            debug_print_function(str.substr(0, pos));
+            str = str.substr(pos + 1);
         }
-        return (*this);
+        inner_stream.str(str);
     }
 
     template<class T>
-    debug_stream& operator <<(const T &t)
-    {
-        (std::ostringstream&)(*this) << t;
-        return *this;
-    }
-
-    template<class T, class traits>
-    debug_stream& operator <<(debug_stream<T, traits>& (*pf) (basic_ostream<T,traits>&))
-    {
-        (std::ostringstream&)(*this) << pf;
-        return *this;
-    }
-
-    basic_ostream<charT,traits>& operator<<(basic_ostream<charT,traits>& (*pf) (basic_ostream<charT,traits>&));
-
+    friend debug_stream& operator<<(debug_stream& os, const T &input);
 };
 
-/*ostringstream& operator<<(ostringstream& os, const string &a) {
-    os << a;
-    if (count(a.begin(), a.end(), '\n') > 0){
-        debug_print_function(os.str());
-        os.str("");
-    }
+
+template<class T>
+debug_stream& operator<<(debug_stream& os, const T &input){
+    os.inner_stream << input;
+    os.print_newlines();
     return os;
-}*/
+}
 
 extern debug_stream debug;
 

@@ -5,11 +5,11 @@ event_handler handler;
 
 void temp(string str){
     string s = "Got command " + str + ". Amazing!";
-    handler.emit<string>("print", s);
+    handler.emit("print", s);
 }
 
 event_handler::event_handler(){
-    this->listen<string>("input", temp);
+    this->listen("input", temp);
 }
 
 void event_handler::run(function<void()> f1, function<void()> f2){
@@ -25,7 +25,7 @@ void event_handler::run(function<void()> f1, function<void()> f2){
             }
             do_next();
         } catch(exception& e){
-            debug_print("Exception caught : " + string(e.what()));
+            debug << "Exception caught : " << string(e.what()) << '\n';
         }
     }
 }
