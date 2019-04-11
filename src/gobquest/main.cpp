@@ -1,4 +1,3 @@
-#include <iostream>
 #include <view/graphics/dialog_window.h>
 #include <boost/filesystem.hpp>
 #include <controller/events/event_handler.h>

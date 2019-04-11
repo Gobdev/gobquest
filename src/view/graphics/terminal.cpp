@@ -2,7 +2,6 @@
 #include <controller/events/event_handler.h>
 #include <controller/debugger/debugger.h>
 #include <string>
-#include <sstream>
 
 using namespace std;
 
@@ -79,7 +78,7 @@ void terminal::read_input(){
                 if (c >= 32 && c <= 255){
                     add_char(c);
                 } else {
-                    debug << "Got unexpected key: " << (int) c << debug_stream::endl;
+                    debug << "Got unexpected key: " << (int) c << std::endl;
                 }
         }
         update();
