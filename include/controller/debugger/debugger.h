@@ -17,6 +17,7 @@ private:
     ostringstream inner_stream;
 
 public:
+    static const char endl = '\n';
     inline debug_stream(){
         inner_stream = ostringstream(ostringstream::ate);
     }
@@ -29,7 +30,7 @@ public:
     void print_newlines(){
         string str = inner_stream.str();
         string::size_type pos = 0;
-        while ((pos = str.find('\n')) != string::npos) {
+        while ((pos = str.find(debug_stream::endl)) != string::npos) {
             debug_print_function(str.substr(0, pos));
             str = str.substr(pos + 1);
         }

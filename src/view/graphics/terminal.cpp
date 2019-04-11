@@ -79,7 +79,7 @@ void terminal::read_input(){
                 if (c >= 32 && c <= 255){
                     add_char(c);
                 } else {
-                    debug << "Got unexpected key: " << (int) c << endl;
+                    debug << "Got unexpected key: " << (int) c << debug_stream::endl;
                 }
         }
         update();

@@ -11,9 +11,9 @@ namespace fs = boost::filesystem;
 #define HEIGHT 10
 #define DEFAULT_PATH "/usr/local/gobquest"
 
+// Set up global constants.
 function<void(string)> debug_print_function;
 debug_stream debug;
-//debug_stream debug;
 
 string welcome_screen(string message, int rows, int cols){
     clear();
